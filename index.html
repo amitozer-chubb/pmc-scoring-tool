@@ -269,42 +269,42 @@
             </div>
             
             <div class="scoring-criteria">
-                <h3 style="margin-top: 0; color: #2c3e50;">Scoring Criteria (Optimized for Mid-Market)</h3>
+                <h3 style="margin-top: 0; color: #2c3e50;">Selective Scoring Criteria (Redesigned for True Prioritization)</h3>
                 
                 <div class="criteria-grid">
                     <div class="criteria-name">Portfolio Sweet Spot</div>
+                    <div class="criteria-weight">20 pts</div>
+                    <div class="criteria-logic">25k-35k units = 20pts • 20k-25k = 15pts • 35k-40k = 10pts • 15k-20k = 5pts • 40k+ = 0pts</div>
+                </div>
+                
+                <div class="criteria-grid">
+                    <div class="criteria-name">Luxury Focus (Class A)</div>
                     <div class="criteria-weight">25 pts</div>
-                    <div class="criteria-logic">25k-35k units = 25pts • 35k-40k = 20pts • 20k-25k = 15pts • 15k-20k = 10pts</div>
+                    <div class="criteria-logic">80%+ Class A = 25pts • 70-79% = 20pts • 60-69% = 15pts • 50-59% = 10pts • &lt;50% = 0pts</div>
                 </div>
                 
                 <div class="criteria-grid">
-                    <div class="criteria-name">Luxury / Class A Mix</div>
+                    <div class="criteria-name">Tech Leadership</div>
                     <div class="criteria-weight">20 pts</div>
-                    <div class="criteria-logic">≥70% Class A = 20pts • 50-69% = 15pts • 30-49% = 10pts • &lt;30% = 5pts</div>
+                    <div class="criteria-logic">High tech + API ready = 20pts • High tech basic = 15pts • Medium tech = 5pts • Low tech = 0pts</div>
                 </div>
                 
                 <div class="criteria-grid">
-                    <div class="criteria-name">Tech Integration</div>
-                    <div class="criteria-weight">20 pts</div>
-                    <div class="criteria-logic">Modern resident portal + API-ready = 20pts • Basic portal = 10pts • Limited tech = 5pts</div>
-                </div>
-                
-                <div class="criteria-grid">
-                    <div class="criteria-name">Current Insurance Gap</div>
+                    <div class="criteria-name">Growth & Expansion</div>
                     <div class="criteria-weight">15 pts</div>
-                    <div class="criteria-logic">No current program = 15pts • Legacy/basic program = 10pts • Modern insurtech = 5pts</div>
+                    <div class="criteria-logic">Expanding markets = 15pts • Strong regional = 10pts • Specialized niche = 5pts • Stable/declining = 0pts</div>
                 </div>
                 
                 <div class="criteria-grid">
-                    <div class="criteria-name">Market Position</div>
+                    <div class="criteria-name">Partnership Readiness</div>
                     <div class="criteria-weight">10 pts</div>
-                    <div class="criteria-logic">Strong regional player = 10pts • Expanding markets = 8pts • Niche specialist = 6pts</div>
+                    <div class="criteria-logic">No current program = 10pts • Legacy/basic = 5pts • Modern insurtech = 0pts</div>
                 </div>
                 
                 <div class="criteria-grid">
-                    <div class="criteria-name">Decision-Making Speed</div>
+                    <div class="criteria-name">Decision Speed</div>
                     <div class="criteria-weight">10 pts</div>
-                    <div class="criteria-logic">Private/entrepreneurial = 10pts • Small public = 8pts • Corporate division = 5pts</div>
+                    <div class="criteria-logic">Private entrepreneurial = 10pts • Small public = 5pts • Corporate division = 0pts</div>
                 </div>
             </div>
             
@@ -325,8 +325,8 @@
                             <th>Portfolio Score</th>
                             <th>Class A Score</th>
                             <th>Tech Score</th>
+                            <th>Growth Score</th>
                             <th>Insurance Score</th>
-                            <th>Market Score</th>
                             <th>Speed Score</th>
                             <th>Total Score</th>
                             <th>Tier</th>
@@ -350,7 +350,7 @@
     </div>
 
     <script>
-        // Your uploaded PMC data
+        // Your uploaded PMC data - ALL 88 companies
         const midMarketPMCs = [
             { name: "GoldOller Real Estate Investments", units: 48134, classA: 60, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
             { name: "GID / Windsor Communities", units: 48071, classA: 75, tech: "high", insurance: "unknown", market: "regional", speed: "private" },
@@ -367,134 +367,169 @@
             { name: "Franklin Group", units: 36630, classA: 55, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
             { name: "Westdale Real Estate Investment & Management", units: 36313, classA: 60, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
             { name: "Valiant Residential*", units: 35724, classA: 70, tech: "high", insurance: "unknown", market: "expanding", speed: "private" },
-            { name: "Village Green", units: 34394, classA: 50, tech: "low", insurance: "unknown", market: "regional", speed: "private" },
+            { name: "Beztak", units: 34958, classA: 65, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
+            { name: "Knightvest Capital", units: 34697, classA: 60, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
+            { name: "Lindsey Management Co, Inc", units: 33668, classA: 50, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
             { name: "AIR Communities", units: 33410, classA: 75, tech: "high", insurance: "unknown", market: "expanding", speed: "private" },
-            { name: "Weidner Apartment Homes", units: 32244, classA: 50, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
+            { name: "Weidner Apartments Homes", units: 32244, classA: 50, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
             { name: "IRT Living", units: 31636, classA: 65, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "Winn Companies", units: 31853, classA: 40, tech: "medium", insurance: "legacy", market: "specialized", speed: "private" },
             { name: "Waterton", units: 31593, classA: 75, tech: "high", insurance: "unknown", market: "expanding", speed: "private" },
-            { name: "Fairfield", units: 30582, classA: 65, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
             { name: "CWS Capital Partners", units: 30171, classA: 80, tech: "high", insurance: "unknown", market: "expanding", speed: "private" },
-            { name: "Cardinal Group Management", units: 29652, classA: 60, tech: "medium", insurance: "unknown", market: "expanding", speed: "private" },
-            { name: "CONAM Management Corporation", units: 28751, classA: 50, tech: "low", insurance: "unknown", market: "regional", speed: "private" },
+            { name: "Allied Orion", units: 30000, classA: 85, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
+            { name: "American Landmark Apartments", units: 29144, classA: 60, tech: "medium", insurance: "unknown", market: "expanding", speed: "private" },
+            { name: "S.L. Nusbaum Realty Co.", units: 29105, classA: 55, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
+            { name: "Gables Residential", units: 28025, classA: 85, tech: "high", insurance: "legacy", market: "regional", speed: "private" },
+            { name: "Fogelman Properties", units: 28022, classA: 55, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
+            { name: "Kairoi Residential", units: 27777, classA: 75, tech: "high", insurance: "unknown", market: "expanding", speed: "private" },
             { name: "Two Coast Living", units: 27770, classA: 70, tech: "medium", insurance: "unknown", market: "expanding", speed: "private" },
+            { name: "Northland", units: 27692, classA: 60, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
             { name: "Mill Creek Residential", units: 27279, classA: 85, tech: "high", insurance: "unknown", market: "expanding", speed: "private" },
             { name: "Bryten Real Estate Partners", units: 27017, classA: 60, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "Arlington Properties", units: 26800, classA: 65, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
             { name: "Westdale", units: 26802, classA: 55, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
+            { name: "Arlington Properties", units: 26800, classA: 65, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
+            { name: "The Inland Real Estate Group of Cos. Inc.", units: 26276, classA: 55, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
             { name: "Sentinel Real Estate Corporation", units: 26153, classA: 60, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
+            { name: "Landmark Properties Inc.", units: 25749, classA: 80, tech: "high", insurance: "unknown", market: "specialized", speed: "private" },
             { name: "Valiant Residential", units: 25231, classA: 70, tech: "high", insurance: "unknown", market: "expanding", speed: "private" },
             { name: "Brookfield Properties", units: 25004, classA: 85, tech: "high", insurance: "legacy", market: "expanding", speed: "corporate" },
+            { name: "Southwood Realty Company", units: 24800, classA: 60, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
             { name: "S2 Residential", units: 24459, classA: 80, tech: "high", insurance: "unknown", market: "expanding", speed: "private" },
+            { name: "Envolve Client Services Group", units: 24009, classA: 50, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
             { name: "BEZTAK Properties", units: 23909, classA: 65, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "Gables Residential", units: 23567, classA: 85, tech: "high", insurance: "legacy", market: "regional", speed: "private" },
             { name: "Coastal Ridge Real Estate", units: 23557, classA: 60, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
+            { name: "Elmington Capital", units: 22621, classA: 75, tech: "high", insurance: "unknown", market: "expanding", speed: "private" },
+            { name: "General Services Corporation", units: 22286, classA: 50, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
+            { name: "Continental Properties Company", units: 21658, classA: 55, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
             { name: "Garden Communities", units: 21543, classA: 55, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
             { name: "Kushner Companies", units: 21142, classA: 70, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "TAM Residential", units: 21032, classA: 65, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
+            { name: "Timberland Partners", units: 21045, classA: 65, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
             { name: "Weinstein Properties", units: 21044, classA: 60, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
+            { name: "TAM Residential", units: 21032, classA: 65, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
             { name: "Case & Associates", units: 20994, classA: 55, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "Kairoi Residential", units: 20593, classA: 75, tech: "high", insurance: "unknown", market: "expanding", speed: "private" },
             { name: "Birge & Held", units: 20575, classA: 60, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
             { name: "Princeton Management", units: 20366, classA: 55, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "Holland Partner Group", units: 19958, classA: 80, tech: "high", insurance: "unknown", market: "expanding", speed: "private" },
             { name: "Gates Hudson", units: 19904, classA: 60, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
             { name: "Cammeby's", units: 19695, classA: 65, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
             { name: "Atlantic Pacific Companies", units: 19660, classA: 70, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
             { name: "AMLI Residential", units: 19481, classA: 90, tech: "high", insurance: "legacy", market: "regional", speed: "private" },
-            { name: "Inland Real Estate", units: 19289, classA: 55, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
+            { name: "Holland Partner Group", units: 19329, classA: 80, tech: "high", insurance: "unknown", market: "expanding", speed: "private" },
+            { name: "Hines", units: 18893, classA: 85, tech: "high", insurance: "legacy", market: "expanding", speed: "corporate" },
             { name: "The NRP Group", units: 18316, classA: 50, tech: "medium", insurance: "unknown", market: "specialized", speed: "private" },
-            { name: "Mission Rock Residential", units: 18046, classA: 80, tech: "high", insurance: "unknown", market: "expanding", speed: "private" },
+            { name: "AION Management", units: 18192, classA: 60, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
+            { name: "Gateway Management Co.", units: 18000, classA: 55, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
             { name: "Gallery Residential", units: 17937, classA: 70, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
             { name: "IMT Residential", units: 17875, classA: 75, tech: "high", insurance: "unknown", market: "regional", speed: "private" },
+            { name: "Freeman Webb Co.", units: 17857, classA: 50, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
             { name: "CLK Properties", units: 17590, classA: 60, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
+            { name: "Flaherty & Collins Properties", units: 17536, classA: 70, tech: "high", insurance: "unknown", market: "regional", speed: "private" },
+            { name: "Tishman Speyer", units: 17371, classA: 90, tech: "high", insurance: "legacy", market: "expanding", speed: "corporate" },
             { name: "AJH Management", units: 17198, classA: 55, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "MORGAN", units: 17061, classA: 65, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
             { name: "Prime Administration, LLC", units: 17115, classA: 60, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "Vest Residential", units: 16840, classA: 70, tech: "high", insurance: "unknown", market: "expanding", speed: "private" },
-            { name: "The Bainbridge Companies", units: 16477, classA: 80, tech: "high", insurance: "unknown", market: "expanding", speed: "private" },
+            { name: "The RMR Group", units: 17110, classA: 65, tech: "medium", insurance: "legacy", market: "regional", speed: "corporate" },
+            { name: "MORGAN", units: 17061, classA: 65, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
             { name: "Atlantic Realty Development Corp.", units: 16954, classA: 65, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
+            { name: "Vest Residential", units: 16840, classA: 70, tech: "high", insurance: "unknown", market: "expanding", speed: "private" },
+            { name: "CAF Management", units: 16556, classA: 60, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
             { name: "Sunridge Management Group Inc", units: 16546, classA: 55, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
+            { name: "The Bainbridge Companies", units: 16477, classA: 80, tech: "high", insurance: "unknown", market: "expanding", speed: "private" },
+            { name: "Blackstone", units: 16257, classA: 80, tech: "high", insurance: "legacy", market: "expanding", speed: "corporate" },
+            { name: "Towne Properties", units: 16145, classA: 60, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
             { name: "The Connor Group", units: 15753, classA: 75, tech: "high", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "Freeman Webb", units: 15680, classA: 50, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "Fogelman Properties", units: 15595, classA: 55, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "American Landmark", units: 15715, classA: 60, tech: "medium", insurance: "unknown", market: "expanding", speed: "private" },
             { name: "West Shore", units: 15722, classA: 70, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
+            { name: "American Landmark", units: 15715, classA: 60, tech: "medium", insurance: "unknown", market: "expanding", speed: "private" },
+            { name: "Marquette Management", units: 15125, classA: 55, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
             { name: "RKW Residential Management", units: 15012, classA: 65, tech: "high", insurance: "unknown", market: "regional", speed: "private" },
             { name: "Brookside Properties", units: 15000, classA: 50, tech: "medium", insurance: "unknown", market: "regional", speed: "private" }
         ];
 
         function calculatePortfolioScore(units) {
-            if (units >= 25000 && units <= 35000) return 25;
-            if (units >= 35000 && units <= 40000) return 20;
+            // Much more selective - penalize very large portfolios
+            if (units >= 25000 && units <= 35000) return 20;
             if (units >= 20000 && units < 25000) return 15;
-            if (units >= 15000 && units < 20000) return 10;
-            return 5;
+            if (units >= 35000 && units <= 40000) return 10;
+            if (units >= 15000 && units < 20000) return 5;
+            return 0; // 40k+ gets 0 points
         }
 
         function calculateClassAScore(classAPercent) {
+            // Much higher bar for luxury focus
+            if (classAPercent >= 80) return 25;
             if (classAPercent >= 70) return 20;
-            if (classAPercent >= 50) return 15;
-            if (classAPercent >= 30) return 10;
-            return 5;
+            if (classAPercent >= 60) return 15;
+            if (classAPercent >= 50) return 10;
+            return 0; // Less than 50% Class A gets 0
         }
 
         function calculateTechScore(techLevel) {
+            // More granular tech scoring
             if (techLevel === "high") return 20;
-            if (techLevel === "medium") return 10;
-            return 5; // low
+            if (techLevel === "medium") return 5; // Much lower for medium
+            return 0; // Low tech gets 0
+        }
+
+        function calculateGrowthScore(market) {
+            // Prioritize growth and expansion
+            if (market === "expanding") return 15;
+            if (market === "regional") return 10;
+            if (market === "specialized") return 5;
+            return 0;
         }
 
         function calculateInsuranceScore(provider) {
-            if (provider === "unknown") return 15;
-            if (provider === "legacy") return 10;
-            return 5; // modern insurtech
-        }
-
-        function calculateMarketScore(position) {
-            if (position === "regional") return 10;
-            if (position === "expanding") return 8;
-            if (position === "specialized") return 6;
-            return 5;
+            // Less generous - unknown is neutral, not positive
+            if (provider === "unknown") return 10;
+            if (provider === "legacy") return 5;
+            return 0; // Modern insurtech = harder to displace
         }
 
         function calculateSpeedScore(structure) {
+            // Only reward truly entrepreneurial companies
             if (structure === "private") return 10;
-            if (structure === "small_public") return 8;
-            if (structure === "corporate") return 5;
-            return 3;
+            if (structure === "small_public") return 5;
+            return 0; // Corporate gets 0
         }
 
         function loadDataAndScore() {
-            // Calculate scores for all PMCs
+            // Calculate scores for all PMCs with stricter criteria
             midMarketPMCs.forEach(company => {
                 company.portfolioScore = calculatePortfolioScore(company.units);
                 company.classAScore = calculateClassAScore(company.classA);
                 company.techScore = calculateTechScore(company.tech);
+                company.growthScore = calculateGrowthScore(company.market);
                 company.insuranceScore = calculateInsuranceScore(company.insurance);
-                company.marketScore = calculateMarketScore(company.market);
                 company.speedScore = calculateSpeedScore(company.speed);
                 
                 company.totalScore = company.portfolioScore + company.classAScore + 
-                                   company.techScore + company.insuranceScore + 
-                                   company.marketScore + company.speedScore;
+                                   company.techScore + company.growthScore + 
+                                   company.insuranceScore + company.speedScore;
                 
-                // Determine tier (adjusted for mid-market)
-                if (company.totalScore >= 65) company.tier = "Tier 1";
-                else if (company.totalScore >= 45) company.tier = "Tier 2";
-                else company.tier = "Tier 3";
-                
-                // Determine action priority
-                if (company.totalScore >= 65) company.priority = "Contact Immediately";
-                else if (company.totalScore >= 55) company.priority = "High Priority";
-                else if (company.totalScore >= 45) company.priority = "Medium Priority";
-                else company.priority = "Research Further";
+                // Much stricter tier thresholds
+                if (company.totalScore >= 75) {
+                    company.tier = "Tier 1";
+                    company.priority = "Contact Immediately";
+                } else if (company.totalScore >= 60) {
+                    company.tier = "Tier 2";
+                    company.priority = "High Priority";
+                } else if (company.totalScore >= 45) {
+                    company.tier = "Tier 2";
+                    company.priority = "Medium Priority";
+                } else {
+                    company.tier = "Tier 3";
+                    company.priority = "Research Further";
+                }
             });
             
             // Sort by total score descending
             midMarketPMCs.sort((a, b) => b.totalScore - a.totalScore);
             
             populateTable(midMarketPMCs);
+            
+            // Log tier distribution for debugging
+            const tier1Count = midMarketPMCs.filter(c => c.tier === "Tier 1").length;
+            const tier2Count = midMarketPMCs.filter(c => c.tier === "Tier 2").length;
+            const tier3Count = midMarketPMCs.filter(c => c.tier === "Tier 3").length;
+            
+            console.log(`Tier Distribution: Tier 1: ${tier1Count}, Tier 2: ${tier2Count}, Tier 3: ${tier3Count}`);
         }
 
         function populateTable(data) {
@@ -516,8 +551,8 @@
                     <td class="number">${company.portfolioScore}</td>
                     <td class="number">${company.classAScore}</td>
                     <td class="number">${company.techScore}</td>
+                    <td class="number">${company.growthScore}</td>
                     <td class="number">${company.insuranceScore}</td>
-                    <td class="number">${company.marketScore}</td>
                     <td class="number">${company.speedScore}</td>
                     <td class="score ${scoreClass}">${company.totalScore}</td>
                     <td><span class="tier ${tierClass}">${company.tier}</span></td>
@@ -561,8 +596,8 @@
                 'Portfolio Score': company.portfolioScore,
                 'Class A Score': company.classAScore,
                 'Tech Score': company.techScore,
+                'Growth Score': company.growthScore,
                 'Insurance Score': company.insuranceScore,
-                'Market Score': company.marketScore,
                 'Speed Score': company.speedScore,
                 'Total Score': company.totalScore,
                 'Tier': company.tier,
