@@ -3,733 +3,962 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mid-Market PMC Scoring Tool</title>
+    <meta name="description" content="Enhanced PMC Prioritization Tool with Intelligence Integration for Strategic Outreach">
+    <meta name="author" content="Renters Insurance Business Development">
+    <title>Enhanced PMC Prioritization Tool - Intelligence Edition</title>
+    
+    <!-- Excel Export Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        /* Reset and Base Styles */
+        * {
             margin: 0;
-            padding: 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
+            padding: 0;
+            box-sizing: border-box;
         }
         
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        /* Container */
         .container {
-            max-width: 1400px;
+            max-width: 1600px;
             margin: 0 auto;
             background: white;
             border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
             overflow: hidden;
         }
         
+        /* Header */
         .header {
-            background: linear-gradient(135deg, #e67e22 0%, #f39c12 100%);
+            background: linear-gradient(135deg, #e67e22 0%, #d35400 100%);
             color: white;
-            padding: 30px;
+            padding: 40px;
             text-align: center;
         }
         
         .header h1 {
-            margin: 0;
             font-size: 2.5em;
-            font-weight: 300;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
         }
         
         .header p {
-            margin: 10px 0 0 0;
-            opacity: 0.9;
             font-size: 1.1em;
+            opacity: 0.95;
         }
         
-        .stats-banner {
-            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
-            color: white;
-            padding: 20px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        /* Stats Bar */
+        .stats-bar {
+            background: #f8f9fa;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-around;
+            border-bottom: 2px solid #e9ecef;
+            flex-wrap: wrap;
             gap: 20px;
-            text-align: center;
         }
         
         .stat {
-            padding: 10px;
+            text-align: center;
+            min-width: 120px;
         }
         
-        .stat-number {
+        .stat-value {
             font-size: 2em;
             font-weight: bold;
-            display: block;
-        }
-        
-        .stat-label {
-            font-size: 0.9em;
-            opacity: 0.9;
-        }
-        
-        .content {
-            padding: 30px;
-        }
-        
-        .strategy-box {
-            background: #e8f5e8;
-            border: 2px solid #27ae60;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 30px;
-        }
-        
-        .strategy-box h3 {
-            color: #27ae60;
-            margin-top: 0;
-        }
-        
-        .scoring-criteria {
-            background: #f8f9fa;
-            padding: 25px;
-            border-radius: 15px;
-            margin-bottom: 30px;
-        }
-        
-        .criteria-grid {
-            display: grid;
-            grid-template-columns: 1fr 100px 2fr;
-            gap: 15px;
-            align-items: center;
-            margin-bottom: 15px;
-            padding: 15px;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        
-        .criteria-name {
-            font-weight: 600;
             color: #2c3e50;
         }
         
-        .criteria-weight {
-            font-size: 1.2em;
-            font-weight: bold;
-            color: #e67e22;
-            text-align: center;
-        }
-        
-        .criteria-logic {
+        .stat-label {
+            color: #7f8c8d;
             font-size: 0.9em;
-            color: #666;
+            margin-top: 5px;
         }
         
+        /* Controls */
         .controls {
+            padding: 30px 40px;
             background: #f8f9fa;
-            padding: 25px;
-            border-radius: 15px;
-            margin-bottom: 30px;
-            text-align: center;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            align-items: center;
         }
         
+        .control-group {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .control-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #495057;
+            font-weight: 500;
+        }
+        
+        .control-group select,
+        .control-group input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+            background: white;
+        }
+        
+        .control-group select:focus,
+        .control-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        /* Buttons */
         .btn {
-            background: linear-gradient(135deg, #e67e22 0%, #f39c12 100%);
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
-            padding: 15px 30px;
-            border-radius: 10px;
-            font-size: 1.1em;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
-            margin: 0 10px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            white-space: nowrap;
         }
         
         .btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
         }
         
-        .btn.secondary {
-            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+        .btn-secondary {
+            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
         }
         
+        /* Table */
         .table-container {
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            overflow: hidden;
+            padding: 0 40px 40px;
             overflow-x: auto;
         }
         
         table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 1200px;
+            margin-top: 20px;
         }
         
         th {
-            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-            color: white;
-            padding: 15px 8px;
+            background: #f8f9fa;
+            padding: 15px;
             text-align: left;
             font-weight: 600;
-            font-size: 0.9em;
+            color: #495057;
+            border-bottom: 2px solid #dee2e6;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            white-space: nowrap;
         }
         
         td {
-            padding: 12px 8px;
-            border-bottom: 1px solid #eee;
-            font-size: 0.9em;
+            padding: 12px 15px;
+            border-bottom: 1px solid #e9ecef;
         }
         
         tr:hover {
             background: #f8f9fa;
         }
         
-        .rank {
-            font-weight: bold;
-            color: #e67e22;
-            text-align: center;
+        /* Tier Styling */
+        .tier-1 {
+            background: linear-gradient(90deg, #d4edda 0%, transparent 100%);
         }
         
-        .company-name {
-            font-weight: 600;
-            color: #2c3e50;
-            max-width: 250px;
+        .tier-2 {
+            background: linear-gradient(90deg, #fff3cd 0%, transparent 100%);
         }
         
-        .number {
-            text-align: right;
-            font-family: 'Courier New', monospace;
+        .tier-3 {
+            background: linear-gradient(90deg, #f8d7da 0%, transparent 100%);
         }
         
-        .score {
-            font-weight: bold;
-            text-align: center;
-            padding: 8px;
-            border-radius: 8px;
-        }
-        
-        .score.high { background: #d4edda; color: #155724; }
-        .score.medium { background: #fff3cd; color: #856404; }
-        .score.low { background: #f8d7da; color: #721c24; }
-        
-        .tier {
-            font-weight: bold;
-            text-align: center;
-            padding: 6px 12px;
+        .tier-badge {
+            display: inline-block;
+            padding: 4px 12px;
             border-radius: 20px;
-            font-size: 0.8em;
+            font-size: 0.85em;
+            font-weight: 600;
+            text-transform: uppercase;
         }
         
-        .tier.tier1 { background: #27ae60; color: white; }
-        .tier.tier2 { background: #f39c12; color: white; }
-        .tier.tier3 { background: #95a5a6; color: white; }
+        .tier-1 .tier-badge {
+            background: #28a745;
+            color: white;
+        }
         
-        .footer {
+        .tier-2 .tier-badge {
+            background: #ffc107;
+            color: #212529;
+        }
+        
+        .tier-3 .tier-badge {
+            background: #dc3545;
+            color: white;
+        }
+        
+        /* Score Bar */
+        .score-bar {
+            width: 100%;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 5px;
+        }
+        
+        .score-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.3s;
+        }
+        
+        /* Intelligence Badges */
+        .data-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.75em;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+        
+        .data-full {
+            background: #28a745;
+            color: white;
+        }
+        
+        .data-basic {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .intel-icon {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
             text-align: center;
-            padding: 20px;
-            color: #666;
-            font-size: 0.9em;
+            line-height: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+        
+        .intel-full {
+            background: #28a745;
+            color: white;
+        }
+        
+        .intel-basic {
+            background: #e9ecef;
+            color: #6c757d;
+        }
+        
+        /* Program Status */
+        .program-status {
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            font-weight: 500;
+            display: inline-block;
+        }
+        
+        .status-none {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-weak {
+            background: #cce5ff;
+            color: #004085;
+        }
+        
+        .status-competitor {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        /* Legend */
+        .legend {
+            padding: 20px 40px;
+            background: #f8f9fa;
+            border-top: 2px solid #e9ecef;
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        /* Export Section */
+        .export-section {
+            padding: 20px 40px;
+            background: white;
+            border-top: 1px solid #e9ecef;
+            text-align: center;
+        }
+        
+        /* Info Box */
+        .info-box {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 40px;
+        }
+        
+        .info-box h3 {
+            margin-bottom: 10px;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .stats-bar {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .controls {
+                flex-direction: column;
+            }
+            
+            .control-group {
+                width: 100%;
+            }
+            
+            .table-container {
+                padding: 0 20px 20px;
+            }
+            
+            th, td {
+                padding: 8px;
+                font-size: 0.9em;
+            }
+            
+            .legend {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+        
+        /* Print Styles */
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            
+            .controls,
+            .export-section {
+                display: none;
+            }
+            
+            .container {
+                box-shadow: none;
+                border-radius: 0;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <!-- Header -->
         <div class="header">
-            <h1>Mid-Market PMC Scoring Tool</h1>
-            <p>Strategic targeting for renters insurance partnerships (15k-40k units)</p>
+            <h1>🎯 Enhanced PMC Prioritization Tool</h1>
+            <p>Intelligence-Driven Outreach Strategy with Research Integration</p>
         </div>
         
-        <div class="stats-banner">
+        <!-- Statistics Bar -->
+        <div class="stats-bar">
             <div class="stat">
-                <span class="stat-number">88</span>
-                <span class="stat-label">Target PMCs</span>
-            </div>
-            <div class="stat">
-                <span class="stat-number">25.6k</span>
-                <span class="stat-label">Avg Units</span>
+                <div class="stat-value" id="totalCompanies">84</div>
+                <div class="stat-label">Total Companies</div>
             </div>
             <div class="stat">
-                <span class="stat-number">15k-48k</span>
-                <span class="stat-label">Unit Range</span>
+                <div class="stat-value" id="tier1Count">0</div>
+                <div class="stat-label">Tier 1 (Immediate)</div>
             </div>
             <div class="stat">
-                <span class="stat-number">2.25M</span>
-                <span class="stat-label">Total Units</span>
+                <div class="stat-value" id="tier2Count">0</div>
+                <div class="stat-label">Tier 2 (Priority)</div>
             </div>
-        </div>
-        
-        <div class="content">
-            <div class="strategy-box">
-                <h3>🎯 Why Mid-Market PMCs are Your Best Target</h3>
-                <ul>
-                    <li><strong>Sweet Spot Size:</strong> Large enough for meaningful volume (15k-40k units vs 100k+ giants)</li>
-                    <li><strong>Decision Speed:</strong> Faster decisions than mega-PMCs with complex bureaucracy</li>
-                    <li><strong>Less Entrenched:</strong> Haven't locked into long-term insurance partnerships yet</li>
-                    <li><strong>Growth Focused:</strong> Many expanding rapidly and open to new partnerships</li>
-                    <li><strong>Underserved Market:</strong> Big insurance companies focus on giants, leaving these overlooked</li>
-                </ul>
-            </div>
-            
-            <div class="scoring-criteria">
-                <h3 style="margin-top: 0; color: #2c3e50;">Selective Scoring Criteria (Redesigned for True Prioritization)</h3>
-                
-                <div class="criteria-grid">
-                    <div class="criteria-name">Portfolio Sweet Spot</div>
-                    <div class="criteria-weight">20 pts</div>
-                    <div class="criteria-logic">25k-35k units = 20pts • 20k-25k = 15pts • 35k-40k = 10pts • 15k-20k = 5pts • 40k+ = 0pts</div>
-                </div>
-                
-                <div class="criteria-grid">
-                    <div class="criteria-name">Luxury Focus (Class A)</div>
-                    <div class="criteria-weight">25 pts</div>
-                    <div class="criteria-logic">80%+ Class A = 25pts • 70-79% = 20pts • 60-69% = 15pts • 50-59% = 10pts • &lt;50% = 0pts</div>
-                </div>
-                
-                <div class="criteria-grid">
-                    <div class="criteria-name">Tech Leadership</div>
-                    <div class="criteria-weight">20 pts</div>
-                    <div class="criteria-logic">High tech + API ready = 20pts • High tech basic = 15pts • Medium tech = 5pts • Low tech = 0pts</div>
-                </div>
-                
-                <div class="criteria-grid">
-                    <div class="criteria-name">Growth & Expansion</div>
-                    <div class="criteria-weight">15 pts</div>
-                    <div class="criteria-logic">Expanding markets = 15pts • Strong regional = 10pts • Specialized niche = 5pts • Stable/declining = 0pts</div>
-                </div>
-                
-                <div class="criteria-grid">
-                    <div class="criteria-name">Partnership Readiness</div>
-                    <div class="criteria-weight">10 pts</div>
-                    <div class="criteria-logic">No current program = 10pts • Legacy/basic = 5pts • Modern insurtech = 0pts</div>
-                </div>
-                
-                <div class="criteria-grid">
-                    <div class="criteria-name">Decision Speed</div>
-                    <div class="criteria-weight">10 pts</div>
-                    <div class="criteria-logic">Private entrepreneurial = 10pts • Small public = 5pts • Corporate division = 0pts</div>
-                </div>
-            </div>
-            
-            <div class="controls">
-                <button class="btn" onclick="loadDataAndScore()">📊 Load Your PMCs & Calculate Scores</button>
-                <button class="btn secondary" onclick="downloadResults()">📈 Download Scored Results</button>
-                <button class="btn" onclick="showTopTargets()">🥇 Show Top Targets</button>
-                <button class="btn" onclick="showAll()">📋 Show All Companies</button>
-            </div>
-            
-            <div class="table-container">
-                <table id="midMarketTable">
-                    <thead>
-                        <tr>
-                            <th>Rank</th>
-                            <th>Company Name</th>
-                            <th>Units</th>
-                            <th>Portfolio Score</th>
-                            <th>Class A Score</th>
-                            <th>Tech Score</th>
-                            <th>Growth Score</th>
-                            <th>Insurance Score</th>
-                            <th>Speed Score</th>
-                            <th>Total Score</th>
-                            <th>Tier</th>
-                            <th>Action Priority</th>
-                        </tr>
-                    </thead>
-                    <tbody id="midMarketTableBody">
-                        <tr>
-                            <td colspan="12" style="text-align: center; padding: 40px; color: #666;">
-                                Click "Load Your PMCs & Calculate Scores" to analyze your target list
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="stat">
+                <div class="stat-value" id="withIntel">0</div>
+                <div class="stat-label">With Intelligence</div>
             </div>
         </div>
         
-        <div class="footer">
-            <p>Mid-market PMC analysis based on your uploaded target list | Optimized for 15k-40k unit companies</p>
+        <!-- Info Box -->
+        <div class="info-box">
+            <h3>📊 How This Tool Works</h3>
+            <p>Companies with <strong>Full Intelligence</strong> (✓) use enhanced scoring based on actual research data including current programs, providers, and pain points. 
+            Companies with <strong>Basic Data</strong> (?) use estimated scoring and should be researched before outreach. 
+            Filter and sort to identify your highest-priority targets with confidence.</p>
+        </div>
+        
+        <!-- Controls -->
+        <div class="controls">
+            <div class="control-group">
+                <label for="filterTier">Filter by Tier:</label>
+                <select id="filterTier">
+                    <option value="all">All Tiers</option>
+                    <option value="1">Tier 1 Only (75+ points)</option>
+                    <option value="2">Tier 2 Only (60-74 points)</option>
+                    <option value="3">Tier 3 Only (&lt;60 points)</option>
+                </select>
+            </div>
+            
+            <div class="control-group">
+                <label for="filterIntel">Filter by Intelligence:</label>
+                <select id="filterIntel">
+                    <option value="all">All Companies</option>
+                    <option value="full">With Full Intelligence</option>
+                    <option value="basic">Basic Data Only</option>
+                </select>
+            </div>
+            
+            <div class="control-group">
+                <label for="searchCompany">Search Company:</label>
+                <input type="text" id="searchCompany" placeholder="Type to search...">
+            </div>
+            
+            <button class="btn" onclick="recalculateScores()">Recalculate Scores</button>
+            <button class="btn btn-secondary" onclick="exportToExcel()">Export to Excel</button>
+        </div>
+        
+        <!-- Table -->
+        <div class="table-container">
+            <table id="companyTable">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Company</th>
+                        <th>Units</th>
+                        <th>Score</th>
+                        <th>Tier</th>
+                        <th>Intel Status</th>
+                        <th>Current Program</th>
+                        <th>Opportunity</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <!-- Rows will be generated by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Legend -->
+        <div class="legend">
+            <div class="legend-item">
+                <span class="intel-icon intel-full">✓</span>
+                <span>Full Intelligence Available</span>
+            </div>
+            <div class="legend-item">
+                <span class="intel-icon intel-basic">?</span>
+                <span>Basic Data Only</span>
+            </div>
+            <div class="legend-item">
+                <span class="program-status status-none">No Program</span>
+                <span>Greenfield Opportunity</span>
+            </div>
+            <div class="legend-item">
+                <span class="program-status status-weak">Weak Program</span>
+                <span>Enhancement Opportunity</span>
+            </div>
+            <div class="legend-item">
+                <span class="program-status status-competitor">Competitor</span>
+                <span>Displacement Opportunity</span>
+            </div>
+        </div>
+        
+        <!-- Export Section -->
+        <div class="export-section">
+            <p>Use filters to refine your target list, then export for CRM integration</p>
+            <p style="margin-top: 10px; font-size: 0.9em; color: #6c757d;">
+                Data current as of November 2024 | Created for Renters Insurance Business Development
+            </p>
         </div>
     </div>
-
+    
     <script>
-        // Your uploaded PMC data - ALL 88 companies
-        const midMarketPMCs = [
-            { name: "GoldOller Real Estate Investments", units: 48134, classA: 60, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "GID / Windsor Communities", units: 48071, classA: 75, tech: "high", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "Balfour Beatty Communities", units: 47485, classA: 50, tech: "medium", insurance: "legacy", market: "specialized", speed: "corporate" },
-            { name: "Pegasus Residential", units: 46264, classA: 70, tech: "high", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "Drucker + Falk", units: 43294, classA: 55, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "Dominium", units: 43199, classA: 40, tech: "medium", insurance: "unknown", market: "specialized", speed: "private" },
-            { name: "Trinity Property Consultants", units: 42706, classA: 45, tech: "low", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "Elmington", units: 38953, classA: 75, tech: "high", insurance: "unknown", market: "expanding", speed: "private" },
-            { name: "Fairfield Residential", units: 38790, classA: 65, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "Berkshire Residential Investments", units: 38703, classA: 70, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "United Apartment Group*", units: 37521, classA: 60, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "Mission Rock Residential", units: 37236, classA: 80, tech: "high", insurance: "unknown", market: "expanding", speed: "private" },
-            { name: "Franklin Group", units: 36630, classA: 55, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "Westdale Real Estate Investment & Management", units: 36313, classA: 60, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "Valiant Residential*", units: 35724, classA: 70, tech: "high", insurance: "unknown", market: "expanding", speed: "private" },
-            { name: "Beztak", units: 34958, classA: 65, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "Knightvest Capital", units: 34697, classA: 60, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "Lindsey Management Co, Inc", units: 33668, classA: 50, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "AIR Communities", units: 33410, classA: 75, tech: "high", insurance: "unknown", market: "expanding", speed: "private" },
-            { name: "Weidner Apartments Homes", units: 32244, classA: 50, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "IRT Living", units: 31636, classA: 65, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "Waterton", units: 31593, classA: 75, tech: "high", insurance: "unknown", market: "expanding", speed: "private" },
-            { name: "CWS Capital Partners", units: 30171, classA: 80, tech: "high", insurance: "unknown", market: "expanding", speed: "private" },
-            { name: "Allied Orion", units: 30000, classA: 85, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "American Landmark Apartments", units: 29144, classA: 60, tech: "medium", insurance: "unknown", market: "expanding", speed: "private" },
-            { name: "S.L. Nusbaum Realty Co.", units: 29105, classA: 55, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "Gables Residential", units: 28025, classA: 85, tech: "high", insurance: "legacy", market: "regional", speed: "private" },
-            { name: "Fogelman Properties", units: 28022, classA: 55, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "Kairoi Residential", units: 27777, classA: 75, tech: "high", insurance: "unknown", market: "expanding", speed: "private" },
-            { name: "Two Coast Living", units: 27770, classA: 70, tech: "medium", insurance: "unknown", market: "expanding", speed: "private" },
-            { name: "Northland", units: 27692, classA: 60, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "Mill Creek Residential", units: 27279, classA: 85, tech: "high", insurance: "unknown", market: "expanding", speed: "private" },
-            { name: "Bryten Real Estate Partners", units: 27017, classA: 60, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "Westdale", units: 26802, classA: 55, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "Arlington Properties", units: 26800, classA: 65, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "The Inland Real Estate Group of Cos. Inc.", units: 26276, classA: 55, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "Sentinel Real Estate Corporation", units: 26153, classA: 60, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "Landmark Properties Inc.", units: 25749, classA: 80, tech: "high", insurance: "unknown", market: "specialized", speed: "private" },
-            { name: "Valiant Residential", units: 25231, classA: 70, tech: "high", insurance: "unknown", market: "expanding", speed: "private" },
-            { name: "Brookfield Properties", units: 25004, classA: 85, tech: "high", insurance: "legacy", market: "expanding", speed: "corporate" },
-            { name: "Southwood Realty Company", units: 24800, classA: 60, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "S2 Residential", units: 24459, classA: 80, tech: "high", insurance: "unknown", market: "expanding", speed: "private" },
-            { name: "Envolve Client Services Group", units: 24009, classA: 50, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "BEZTAK Properties", units: 23909, classA: 65, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "Coastal Ridge Real Estate", units: 23557, classA: 60, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "Elmington Capital", units: 22621, classA: 75, tech: "high", insurance: "unknown", market: "expanding", speed: "private" },
-            { name: "General Services Corporation", units: 22286, classA: 50, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "Continental Properties Company", units: 21658, classA: 55, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "Garden Communities", units: 21543, classA: 55, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "Kushner Companies", units: 21142, classA: 70, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "Timberland Partners", units: 21045, classA: 65, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "Weinstein Properties", units: 21044, classA: 60, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "TAM Residential", units: 21032, classA: 65, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "Case & Associates", units: 20994, classA: 55, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "Birge & Held", units: 20575, classA: 60, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "Princeton Management", units: 20366, classA: 55, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "Gates Hudson", units: 19904, classA: 60, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "Cammeby's", units: 19695, classA: 65, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "Atlantic Pacific Companies", units: 19660, classA: 70, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "AMLI Residential", units: 19481, classA: 90, tech: "high", insurance: "legacy", market: "regional", speed: "private" },
-            { name: "Holland Partner Group", units: 19329, classA: 80, tech: "high", insurance: "unknown", market: "expanding", speed: "private" },
-            { name: "Hines", units: 18893, classA: 85, tech: "high", insurance: "legacy", market: "expanding", speed: "corporate" },
-            { name: "The NRP Group", units: 18316, classA: 50, tech: "medium", insurance: "unknown", market: "specialized", speed: "private" },
-            { name: "AION Management", units: 18192, classA: 60, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "Gateway Management Co.", units: 18000, classA: 55, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "Gallery Residential", units: 17937, classA: 70, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "IMT Residential", units: 17875, classA: 75, tech: "high", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "Freeman Webb Co.", units: 17857, classA: 50, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "CLK Properties", units: 17590, classA: 60, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "Flaherty & Collins Properties", units: 17536, classA: 70, tech: "high", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "Tishman Speyer", units: 17371, classA: 90, tech: "high", insurance: "legacy", market: "expanding", speed: "corporate" },
-            { name: "AJH Management", units: 17198, classA: 55, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "Prime Administration, LLC", units: 17115, classA: 60, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "The RMR Group", units: 17110, classA: 65, tech: "medium", insurance: "legacy", market: "regional", speed: "corporate" },
-            { name: "MORGAN", units: 17061, classA: 65, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "Atlantic Realty Development Corp.", units: 16954, classA: 65, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "Vest Residential", units: 16840, classA: 70, tech: "high", insurance: "unknown", market: "expanding", speed: "private" },
-            { name: "CAF Management", units: 16556, classA: 60, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "Sunridge Management Group Inc", units: 16546, classA: 55, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "The Bainbridge Companies", units: 16477, classA: 80, tech: "high", insurance: "unknown", market: "expanding", speed: "private" },
-            { name: "Blackstone", units: 16257, classA: 80, tech: "high", insurance: "legacy", market: "expanding", speed: "corporate" },
-            { name: "Towne Properties", units: 16145, classA: 60, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "The Connor Group", units: 15753, classA: 75, tech: "high", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "West Shore", units: 15722, classA: 70, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "American Landmark", units: 15715, classA: 60, tech: "medium", insurance: "unknown", market: "expanding", speed: "private" },
-            { name: "Marquette Management", units: 15125, classA: 55, tech: "medium", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "RKW Residential Management", units: 15012, classA: 65, tech: "high", insurance: "unknown", market: "regional", speed: "private" },
-            { name: "Brookside Properties", units: 15000, classA: 50, tech: "medium", insurance: "unknown", market: "regional", speed: "private" }
+        // Complete company data with intelligence indicators
+        const companies = [
+            { name: "GoldOller Real Estate Investments", units: 48134, hasIntel: false },
+            { name: "GID / Windsor Communities", units: 48071, hasIntel: false },
+            { name: "Balfour Beatty Communities", units: 47485, hasIntel: false },
+            { name: "Pegasus Residential", units: 46264, hasIntel: false },
+            { name: "Drucker + Falk", units: 43294, hasIntel: false },
+            { name: "Dominium", units: 43199, hasIntel: false },
+            { name: "Trinity Property Consultants", units: 42706, hasIntel: false },
+            { name: "Elmington", units: 38953, hasIntel: false },
+            { name: "Fairfield Residential", units: 38790, hasIntel: false },
+            { name: "Berkshire Residential Investments", units: 38703, hasIntel: false },
+            { name: "United Apartment Group*", units: 37521, hasIntel: false },
+            { name: "Mission Rock Residential", units: 37236, hasIntel: false },
+            { name: "Franklin Group", units: 36630, hasIntel: false },
+            { name: "Westdale Real Estate Investment & Management", units: 36313, hasIntel: true, program: "none", provider: null },
+            { name: "Valiant Residential*", units: 35724, hasIntel: true, program: "optional", provider: "Unknown (engaging London)" },
+            { name: "Beztak", units: 34958, hasIntel: true, program: "mandatory", provider: "Popic & Habitat" },
+            { name: "Knightvest Capital", units: 34697, hasIntel: true, program: "none", provider: null },
+            { name: "Lindsey Management Co, Inc", units: 33668, hasIntel: true, program: "none", provider: null },
+            { name: "AIR Communities", units: 33410, hasIntel: true, program: "transition", provider: "Unknown (Blackstone acquisition)" },
+            { name: "Weidner Apartments Homes", units: 32244, hasIntel: true, program: "mandatory", provider: "Tenant choice" },
+            { name: "IRT Living", units: 31636, hasIntel: true, program: "mandatory", provider: "Tenant choice" },
+            { name: "Waterton", units: 31593, hasIntel: true, program: "unknown", provider: null },
+            { name: "CWS Capital Partners", units: 30171, hasIntel: true, program: "mandatory", provider: "RealPage" },
+            { name: "Allied Orion", units: 30000, hasIntel: true, program: "limited", provider: "Unknown" },
+            { name: "American Landmark Apartments", units: 29144, hasIntel: true, program: "mandatory", provider: "Multiple" },
+            { name: "S.L. Nusbaum Realty Co.", units: 29105, hasIntel: true, program: "unknown", provider: "S.L. Nusbaum Insurance" },
+            { name: "Gables Residential", units: 28025, hasIntel: true, program: "optional", provider: null },
+            { name: "Fogelman Properties", units: 28022, hasIntel: true, program: "none", provider: null },
+            { name: "Kairoi Residential", units: 27777, hasIntel: true, program: "none", provider: null },
+            { name: "Two Coast Living", units: 27770, hasIntel: true, program: "none", provider: null },
+            { name: "Northland", units: 27692, hasIntel: true, program: "mandatory", provider: "Unknown" },
+            { name: "Mill Creek Residential", units: 27279, hasIntel: true, program: "mandatory", provider: "Tenant choice" },
+            { name: "Bryten Real Estate Partners", units: 27017, hasIntel: true, program: "likely", provider: "LFT/Markel (CA/TX only)" },
+            { name: "Arlington Properties", units: 26800, hasIntel: true, program: "none", provider: null },
+            { name: "The Inland Real Estate Group of Cos. Inc.", units: 26276, hasIntel: true, program: "mandatory", provider: "Assurant" },
+            { name: "Sentinel Real Estate Corporation", units: 26153, hasIntel: true, program: "none", provider: null },
+            { name: "Landmark Properties Inc.", units: 25749, hasIntel: true, program: "optional", provider: "Multiple" },
+            { name: "Brookfield Properties", units: 25004, hasIntel: true, program: "mandatory", provider: "Lockton Affinity" },
+            { name: "Southwood Realty Company", units: 24800, hasIntel: true, program: "mandatory", provider: "MRI Software" },
+            { name: "S2 Residential", units: 24459, hasIntel: true, program: "none", provider: null },
+            { name: "Envolve Client Services Group", units: 24009, hasIntel: true, program: "none", provider: null },
+            { name: "Coastal Ridge Real Estate", units: 23557, hasIntel: true, program: "none", provider: null },
+            { name: "General Services Corporation", units: 22286, hasIntel: true, program: "none", provider: null },
+            { name: "Continental Properties Company", units: 21658, hasIntel: true, program: "varies", provider: "ResidentShield (partial)" },
+            { name: "Garden Communities", units: 21543, hasIntel: true, program: "variable", provider: "Effective Coverage (CA)" },
+            { name: "Kushner Companies", units: 20000, hasIntel: true, program: "none", provider: null },
+            { name: "Timberland Partners", units: 20000, hasIntel: true, program: "unclear", provider: null },
+            { name: "Weinstein Properties", units: 20000, hasIntel: true, program: "mandatory", provider: "Assurant" },
+            { name: "TAM Residential", units: 19609, hasIntel: true, program: "none", provider: null },
+            { name: "Case & Associates", units: 19270, hasIntel: true, program: "none", provider: null },
+            { name: "Birge & Held", units: 19024, hasIntel: true, program: "problematic", provider: "Unknown" },
+            { name: "Princeton Management", units: 18883, hasIntel: true, program: "unclear", provider: null },
+            { name: "Blanton Turner", units: 18746, hasIntel: false },
+            { name: "Steadfast Companies", units: 18589, hasIntel: false },
+            { name: "First Communities", units: 18508, hasIntel: false },
+            { name: "Roberts Companies", units: 18382, hasIntel: false },
+            { name: "Laramar Group", units: 18334, hasIntel: false },
+            { name: "CA Student Living", units: 18290, hasIntel: false },
+            { name: "AION Partners LLC", units: 18109, hasIntel: false },
+            { name: "Corvias", units: 18023, hasIntel: false },
+            { name: "Peak Campus", units: 17935, hasIntel: false },
+            { name: "EdR", units: 17787, hasIntel: false },
+            { name: "Campus Crest Communities", units: 17531, hasIntel: false },
+            { name: "Pierce Education Properties", units: 17482, hasIntel: false },
+            { name: "The Scion Group", units: 17309, hasIntel: false },
+            { name: "Preiss Company", units: 17259, hasIntel: false },
+            { name: "Cardinal Group", units: 17162, hasIntel: false },
+            { name: "Capstone Real Estate Investments", units: 17113, hasIntel: false },
+            { name: "CA Ventures", units: 17032, hasIntel: false },
+            { name: "University Partners", units: 16960, hasIntel: false },
+            { name: "Core Spaces", units: 16942, hasIntel: false },
+            { name: "American Campus Communities", units: 16752, hasIntel: false },
+            { name: "The Dinerstein Companies", units: 16712, hasIntel: false },
+            { name: "CHNM", units: 16468, hasIntel: false },
+            { name: "Brookside Properties", units: 15000, hasIntel: true, program: "unknown", provider: null },
+            { name: "AMC Management", units: 15000, hasIntel: false },
+            { name: "Towne Properties", units: 15000, hasIntel: false },
+            { name: "Grand Peaks Properties", units: 15000, hasIntel: false },
+            { name: "Monument Real Estate Services", units: 15000, hasIntel: false },
+            { name: "Tower 16 Capital Partners", units: 15000, hasIntel: false },
+            { name: "St. John Properties", units: 15000, hasIntel: false },
+            { name: "Redwood Living", units: 15000, hasIntel: false },
+            { name: "Hayman Company", units: 15000, hasIntel: false },
+            { name: "National Property Management Associates", units: 15000, hasIntel: false }
         ];
-
-        function calculatePortfolioScore(units) {
-            // Much more selective - penalize very large portfolios
-            if (units >= 25000 && units <= 35000) return 20;
-            if (units >= 20000 && units < 25000) return 15;
-            if (units >= 35000 && units <= 40000) return 10;
-            if (units >= 15000 && units < 20000) return 5;
-            return 0; // 40k+ gets 0 points
-        }
-
-        function calculateClassAScore(classAPercent) {
-            // Much higher bar for luxury focus
-            if (classAPercent >= 80) return 25;
-            if (classAPercent >= 70) return 20;
-            if (classAPercent >= 60) return 15;
-            if (classAPercent >= 50) return 10;
-            return 0; // Less than 50% Class A gets 0
-        }
-
-        function calculateTechScore(techLevel) {
-            // More granular tech scoring
-            if (techLevel === "high") return 20;
-            if (techLevel === "medium") return 5; // Much lower for medium
-            return 0; // Low tech gets 0
-        }
-
-        function calculateGrowthScore(market) {
-            // Prioritize growth and expansion
-            if (market === "expanding") return 15;
-            if (market === "regional") return 10;
-            if (market === "specialized") return 5;
-            return 0;
-        }
-
-        function calculateInsuranceScore(provider) {
-            // Less generous - unknown is neutral, not positive
-            if (provider === "unknown") return 10;
-            if (provider === "legacy") return 5;
-            return 0; // Modern insurtech = harder to displace
-        }
-
-        function calculateSpeedScore(structure) {
-            // Only reward truly entrepreneurial companies
-            if (structure === "private") return 10;
-            if (structure === "small_public") return 5;
-            return 0; // Corporate gets 0
-        }
-
-        function loadDataAndScore() {
-            // Calculate scores for all PMCs with stricter criteria
-            midMarketPMCs.forEach(company => {
-                company.portfolioScore = calculatePortfolioScore(company.units);
-                company.classAScore = calculateClassAScore(company.classA);
-                company.techScore = calculateTechScore(company.tech);
-                company.growthScore = calculateGrowthScore(company.market);
-                company.insuranceScore = calculateInsuranceScore(company.insurance);
-                company.speedScore = calculateSpeedScore(company.speed);
+        
+        // Scoring functions
+        function calculateScore(company) {
+            let score = 0;
+            let breakdown = {};
+            
+            if (company.hasIntel) {
+                // Enhanced scoring with intelligence data
                 
-                company.totalScore = company.portfolioScore + company.classAScore + 
-                                   company.techScore + company.growthScore + 
-                                   company.insuranceScore + company.speedScore;
-                
-                // Much stricter tier thresholds
-                if (company.totalScore >= 75) {
-                    company.tier = "Tier 1";
-                    company.priority = "Contact Immediately";
-                } else if (company.totalScore >= 60) {
-                    company.tier = "Tier 2";
-                    company.priority = "High Priority";
-                } else if (company.totalScore >= 45) {
-                    company.tier = "Tier 2";
-                    company.priority = "Medium Priority";
+                // Current Program Status (20 points)
+                if (company.program === "none") {
+                    score += 20;
+                    breakdown.programStatus = 20;
+                } else if (company.program === "weak" || company.program === "manual" || company.program === "problematic") {
+                    score += 15;
+                    breakdown.programStatus = 15;
+                } else if (company.program === "optional" || company.program === "unclear" || company.program === "limited") {
+                    score += 10;
+                    breakdown.programStatus = 10;
+                } else if (company.program === "transition" || company.program === "mixed" || company.program === "varies" || company.program === "variable") {
+                    score += 8;
+                    breakdown.programStatus = 8;
+                } else if (company.program === "mandatory" && company.provider && company.provider.includes("Assurant")) {
+                    score += 3;
+                    breakdown.programStatus = 3;
+                } else if (company.program === "mandatory") {
+                    score += 5;
+                    breakdown.programStatus = 5;
                 } else {
-                    company.tier = "Tier 3";
-                    company.priority = "Research Further";
+                    score += 5;
+                    breakdown.programStatus = 5;
                 }
-            });
+                
+                // Portfolio Size (15 points)
+                if (company.units >= 25000 && company.units <= 35000) {
+                    score += 15;
+                    breakdown.portfolioSize = 15;
+                } else if (company.units >= 20000 && company.units < 25000) {
+                    score += 12;
+                    breakdown.portfolioSize = 12;
+                } else if (company.units >= 35000 && company.units < 40000) {
+                    score += 8;
+                    breakdown.portfolioSize = 8;
+                } else if (company.units >= 15000 && company.units < 20000) {
+                    score += 8;
+                    breakdown.portfolioSize = 8;
+                } else if (company.units >= 40000) {
+                    score += 0;
+                    breakdown.portfolioSize = 0;
+                }
+                
+                // Tech Readiness (15 points) - estimated based on program type
+                if (company.program === "none" || company.program === "manual") {
+                    score += 15; // High opportunity for tech improvement
+                    breakdown.techReadiness = 15;
+                } else if (company.program === "weak" || company.program === "problematic") {
+                    score += 12;
+                    breakdown.techReadiness = 12;
+                } else if (company.program === "optional" || company.program === "unclear" || company.program === "limited") {
+                    score += 8;
+                    breakdown.techReadiness = 8;
+                } else {
+                    score += 5;
+                    breakdown.techReadiness = 5;
+                }
+                
+                // Opportunity Signals (15 points)
+                let opportunityScore = 10; // Base score
+                if (company.program === "transition") opportunityScore += 5;
+                if (company.provider && company.provider.includes("Unknown")) opportunityScore += 3;
+                if (company.program === "none") opportunityScore += 5;
+                if (company.name === "AIR Communities") opportunityScore = 15; // Blackstone acquisition
+                score += Math.min(15, opportunityScore);
+                breakdown.opportunitySignals = Math.min(15, opportunityScore);
+                
+                // Class A Focus (15 points) - estimated
+                score += 10; // Default medium score without specific data
+                breakdown.classAFocus = 10;
+                
+                // Growth Focus (10 points) - estimated
+                score += 7; // Default medium score
+                breakdown.growthFocus = 7;
+                
+                // Decision Speed (10 points) - estimated
+                score += 8; // Assume mostly private companies
+                breakdown.decisionSpeed = 8;
+                
+            } else {
+                // Basic scoring for companies without intelligence
+                
+                // Class A Focus (25 points) - estimated
+                score += 15;
+                breakdown.classAFocus = 15;
+                
+                // Portfolio Size (20 points)
+                if (company.units >= 25000 && company.units <= 35000) {
+                    score += 20;
+                    breakdown.portfolioSize = 20;
+                } else if (company.units >= 20000 && company.units < 25000) {
+                    score += 15;
+                    breakdown.portfolioSize = 15;
+                } else if (company.units >= 35000 && company.units < 40000) {
+                    score += 10;
+                    breakdown.portfolioSize = 10;
+                } else if (company.units >= 15000 && company.units < 20000) {
+                    score += 10;
+                    breakdown.portfolioSize = 10;
+                } else if (company.units >= 40000) {
+                    score += 0;
+                    breakdown.portfolioSize = 0;
+                }
+                
+                // Tech Leadership (20 points) - estimated
+                score += 10;
+                breakdown.techLeadership = 10;
+                
+                // Growth Focus (15 points) - estimated
+                score += 10;
+                breakdown.growthFocus = 10;
+                
+                // Partnership Readiness (10 points) - estimated
+                score += 7;
+                breakdown.partnershipReadiness = 7;
+                
+                // Decision Speed (10 points) - estimated
+                score += 8;
+                breakdown.decisionSpeed = 8;
+            }
             
-            // Sort by total score descending
-            midMarketPMCs.sort((a, b) => b.totalScore - a.totalScore);
+            company.score = score;
+            company.breakdown = breakdown;
             
-            populateTable(midMarketPMCs);
+            // Determine tier
+            if (score >= 75) {
+                company.tier = 1;
+            } else if (score >= 60) {
+                company.tier = 2;
+            } else {
+                company.tier = 3;
+            }
             
-            // Log tier distribution for debugging
-            const tier1Count = midMarketPMCs.filter(c => c.tier === "Tier 1").length;
-            const tier2Count = midMarketPMCs.filter(c => c.tier === "Tier 2").length;
-            const tier3Count = midMarketPMCs.filter(c => c.tier === "Tier 3").length;
-            
-            console.log(`Tier Distribution: Tier 1: ${tier1Count}, Tier 2: ${tier2Count}, Tier 3: ${tier3Count}`);
+            return score;
         }
-
-        function populateTable(data) {
-            const tableBody = document.getElementById('midMarketTableBody');
-            tableBody.innerHTML = '';
+        
+        // Calculate initial scores
+        companies.forEach(company => {
+            calculateScore(company);
+        });
+        
+        // Sort by score
+        companies.sort((a, b) => b.score - a.score);
+        
+        // Render table
+        function renderTable() {
+            const tbody = document.getElementById('tableBody');
+            const filterTier = document.getElementById('filterTier').value;
+            const filterIntel = document.getElementById('filterIntel').value;
+            const searchTerm = document.getElementById('searchCompany').value.toLowerCase();
             
-            data.forEach((company, index) => {
+            tbody.innerHTML = '';
+            
+            let tier1Count = 0;
+            let tier2Count = 0;
+            let withIntelCount = 0;
+            let rank = 1;
+            
+            companies.forEach((company, index) => {
+                // Count stats
+                if (company.tier === 1) tier1Count++;
+                if (company.tier === 2) tier2Count++;
+                if (company.hasIntel) withIntelCount++;
+                
+                // Apply filters
+                if (filterTier !== 'all' && company.tier !== parseInt(filterTier)) return;
+                if (filterIntel === 'full' && !company.hasIntel) return;
+                if (filterIntel === 'basic' && company.hasIntel) return;
+                if (searchTerm && !company.name.toLowerCase().includes(searchTerm)) return;
+                
                 const row = document.createElement('tr');
+                row.className = `tier-${company.tier}`;
                 
-                const scoreClass = company.totalScore >= 65 ? 'high' : 
-                                 company.totalScore >= 45 ? 'medium' : 'low';
+                // Determine action based on intelligence
+                let action = '';
+                let opportunity = '';
+                let currentProgram = '';
                 
-                const tierClass = company.tier.toLowerCase().replace(' ', '');
+                if (company.hasIntel) {
+                    if (company.program === 'none') {
+                        currentProgram = '<span class="program-status status-none">No Program</span>';
+                        opportunity = 'Greenfield - High Priority';
+                        action = 'Call immediately';
+                    } else if (company.program === 'weak' || company.program === 'manual' || company.program === 'problematic') {
+                        currentProgram = '<span class="program-status status-weak">Weak Program</span>';
+                        opportunity = 'Clear value-add';
+                        action = 'Prepare enhancement pitch';
+                    } else if (company.program === 'mandatory' && company.provider) {
+                        currentProgram = `<span class="program-status status-competitor">${company.provider}</span>`;
+                        opportunity = 'Displacement';
+                        action = 'Research pain points';
+                    } else if (company.program === 'transition' || company.program === 'mixed') {
+                        currentProgram = '<span class="program-status status-weak">In Transition</span>';
+                        opportunity = 'Timing opportunity';
+                        action = 'Move fast';
+                    } else if (company.program === 'optional' || company.program === 'limited') {
+                        currentProgram = '<span class="program-status status-weak">Optional/Limited</span>';
+                        opportunity = 'Standardization opp';
+                        action = 'Propose corporate program';
+                    } else if (company.program === 'unclear' || company.program === 'unknown') {
+                        currentProgram = '<span class="program-status status-weak">Unclear</span>';
+                        opportunity = 'Needs assessment';
+                        action = 'Discovery call';
+                    } else if (company.program === 'varies' || company.program === 'variable') {
+                        currentProgram = '<span class="program-status status-weak">Inconsistent</span>';
+                        opportunity = 'Standardization needed';
+                        action = 'Propose unified solution';
+                    } else {
+                        currentProgram = company.program || 'Unknown';
+                        opportunity = 'Assess further';
+                        action = 'Research needed';
+                    }
+                } else {
+                    currentProgram = '—';
+                    opportunity = 'Unknown';
+                    action = 'Research first';
+                }
                 
                 row.innerHTML = `
-                    <td class="rank">${index + 1}</td>
-                    <td class="company-name">${company.name}</td>
-                    <td class="number">${company.units.toLocaleString()}</td>
-                    <td class="number">${company.portfolioScore}</td>
-                    <td class="number">${company.classAScore}</td>
-                    <td class="number">${company.techScore}</td>
-                    <td class="number">${company.growthScore}</td>
-                    <td class="number">${company.insuranceScore}</td>
-                    <td class="number">${company.speedScore}</td>
-                    <td class="score ${scoreClass}">${company.totalScore}</td>
-                    <td><span class="tier ${tierClass}">${company.tier}</span></td>
-                    <td style="font-weight: 600; color: ${scoreClass === 'high' ? '#155724' : scoreClass === 'medium' ? '#856404' : '#721c24'}">${company.priority}</td>
+                    <td>${rank++}</td>
+                    <td>
+                        ${company.hasIntel ? '<span class="intel-icon intel-full">✓</span>' : '<span class="intel-icon intel-basic">?</span>'}
+                        <strong>${company.name}</strong>
+                    </td>
+                    <td>${company.units.toLocaleString()}</td>
+                    <td>
+                        <strong>${company.score}</strong>/100
+                        <div class="score-bar">
+                            <div class="score-fill" style="width: ${company.score}%"></div>
+                        </div>
+                    </td>
+                    <td><span class="tier-badge">Tier ${company.tier}</span></td>
+                    <td>
+                        ${company.hasIntel ? '<span class="data-badge data-full">Full Intel</span>' : '<span class="data-badge data-basic">Basic Only</span>'}
+                    </td>
+                    <td>${currentProgram}</td>
+                    <td>${opportunity}</td>
+                    <td><strong>${action}</strong></td>
                 `;
                 
-                tableBody.appendChild(row);
+                tbody.appendChild(row);
             });
-        }
-
-        function showTopTargets() {
-            if (!midMarketPMCs[0].totalScore) {
-                loadDataAndScore();
-            }
-            const topTierCompanies = midMarketPMCs.filter(company => company.tier === "Tier 1");
-            populateTable(topTierCompanies);
-        }
-
-        function showAll() {
-            if (!midMarketPMCs[0].totalScore) {
-                loadDataAndScore();
-            }
-            populateTable(midMarketPMCs);
-        }
-
-        function downloadResults() {
-            if (!midMarketPMCs[0].totalScore) {
-                loadDataAndScore();
-            }
             
-            // Prepare data for Excel
-            const excelData = midMarketPMCs.map((company, index) => ({
+            // Update stats
+            document.getElementById('tier1Count').textContent = tier1Count;
+            document.getElementById('tier2Count').textContent = tier2Count;
+            document.getElementById('withIntel').textContent = withIntelCount;
+        }
+        
+        // Initial render
+        renderTable();
+        
+        // Event listeners
+        document.getElementById('filterTier').addEventListener('change', renderTable);
+        document.getElementById('filterIntel').addEventListener('change', renderTable);
+        document.getElementById('searchCompany').addEventListener('input', renderTable);
+        
+        // Recalculate scores
+        function recalculateScores() {
+            companies.forEach(company => {
+                calculateScore(company);
+            });
+            companies.sort((a, b) => b.score - a.score);
+            renderTable();
+            
+            // Show notification
+            const notification = document.createElement('div');
+            notification.style.cssText = 'position: fixed; top: 20px; right: 20px; background: #28a745; color: white; padding: 15px 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); z-index: 1000;';
+            notification.textContent = 'Scores recalculated successfully!';
+            document.body.appendChild(notification);
+            setTimeout(() => notification.remove(), 3000);
+        }
+        
+        // Export to Excel
+        function exportToExcel() {
+            const exportData = companies.map((company, index) => ({
                 'Rank': index + 1,
-                'Company Name': company.name,
-                'Total Units': company.units,
-                'Class A %': company.classA,
-                'Tech Level': company.tech,
-                'Current Insurance': company.insurance,
-                'Market Position': company.market,
-                'Decision Speed': company.speed,
-                'Portfolio Score': company.portfolioScore,
-                'Class A Score': company.classAScore,
-                'Tech Score': company.techScore,
-                'Growth Score': company.growthScore,
-                'Insurance Score': company.insuranceScore,
-                'Speed Score': company.speedScore,
-                'Total Score': company.totalScore,
+                'Company': company.name,
+                'Units': company.units,
+                'Score': company.score,
                 'Tier': company.tier,
-                'Action Priority': company.priority
+                'Intelligence Status': company.hasIntel ? 'Full Intelligence' : 'Basic Data',
+                'Current Program': company.program || 'Unknown',
+                'Current Provider': company.provider || 'None',
+                'Class A Focus': company.breakdown.classAFocus || 0,
+                'Portfolio Size Score': company.breakdown.portfolioSize || 0,
+                'Tech Readiness Score': company.breakdown.techReadiness || company.breakdown.techLeadership || 0,
+                'Growth Focus Score': company.breakdown.growthFocus || 0,
+                'Partnership/Decision Score': company.breakdown.partnershipReadiness || company.breakdown.decisionSpeed || 0,
+                'Program Status Score': company.breakdown.programStatus || 0,
+                'Opportunity Signals': company.breakdown.opportunitySignals || 0
             }));
-
-            // Create workbook
+            
+            const ws = XLSX.utils.json_to_sheet(exportData);
             const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "PMC Prioritization");
             
-            // Main results sheet
-            const ws1 = XLSX.utils.json_to_sheet(excelData);
-            ws1['!cols'] = [
-                {wch: 6}, {wch: 35}, {wch: 12}, {wch: 10}, {wch: 12}, {wch: 15}, 
-                {wch: 15}, {wch: 12}, {wch: 12}, {wch: 12}, {wch: 10}, {wch: 12}, 
-                {wch: 12}, {wch: 10}, {wch: 12}, {wch: 8}, {wch: 18}
+            // Add column widths
+            const wscols = [
+                {wch: 6},  // Rank
+                {wch: 40}, // Company
+                {wch: 10}, // Units
+                {wch: 8},  // Score
+                {wch: 6},  // Tier
+                {wch: 20}, // Intelligence Status
+                {wch: 15}, // Current Program
+                {wch: 20}, // Current Provider
+                {wch: 12}, // Class A Focus
+                {wch: 15}, // Portfolio Size Score
+                {wch: 15}, // Tech Readiness Score
+                {wch: 15}, // Growth Focus Score
+                {wch: 20}, // Partnership/Decision Score
+                {wch: 15}, // Program Status Score
+                {wch: 15}  // Opportunity Signals
             ];
-            XLSX.utils.book_append_sheet(wb, ws1, "Mid-Market PMC Scores");
+            ws['!cols'] = wscols;
             
-            // Tier 1 immediate targets
-            const tier1Data = excelData.filter(company => company.Tier === "Tier 1");
-            const ws2 = XLSX.utils.json_to_sheet(tier1Data);
-            ws2['!cols'] = ws1['!cols'];
-            XLSX.utils.book_append_sheet(wb, ws2, "🎯 Tier 1 Immediate Targets");
+            XLSX.writeFile(wb, "PMC_Prioritization_Enhanced.xlsx");
             
-            // High scoring companies (60+ points)
-            const highScoringData = excelData.filter(company => company['Total Score'] >= 60);
-            const ws3 = XLSX.utils.json_to_sheet(highScoringData);
-            ws3['!cols'] = ws1['!cols'];
-            XLSX.utils.book_append_sheet(wb, ws3, "High Priority (60+ pts)");
-            
-            // Data verification sheet
-            const verificationData = [
-                ['MID-MARKET PMC DATA VERIFICATION CHECKLIST', '', '', ''],
-                ['❗ IMPORTANT: All estimated data should be verified before outreach', '', '', ''],
-                ['', '', '', ''],
-                ['Company Name', 'Verification Priority', 'What to Verify', 'Suggested Sources'],
-                ['', '', '', ''],
-                ['TOP TIER 1 COMPANIES TO VERIFY FIRST:', '', '', '']
-            ];
-
-            // Add top 10 companies for verification
-            const top10 = midMarketPMCs.slice(0, 10);
-            top10.forEach(company => {
-                verificationData.push([
-                    company.name,
-                    company.tier === "Tier 1" ? "HIGH PRIORITY" : "Medium Priority",
-                    `Class A % (estimated: ${company.classA}%), Tech level, Insurance provider`,
-                    "Company website, LinkedIn, investor materials"
-                ]);
-            });
-
-            verificationData.push(
-                ['', '', '', ''],
-                ['VERIFICATION METHODOLOGY:', '', '', ''],
-                ['1. Class A %', 'Check company marketing materials, property listings', '', ''],
-                ['2. Tech Level', 'Look for resident portals, mobile apps, API mentions', '', ''],
-                ['3. Insurance Provider', 'Check lease agreements, resident onboarding docs', '', ''],
-                ['4. Market Position', 'Review recent press releases, expansion announcements', '', ''],
-                ['5. Decision Structure', 'Research company ownership, leadership structure', '', ''],
-                ['', '', '', ''],
-                ['RECOMMENDED RESEARCH SOURCES:', '', '', ''],
-                ['• Company investor relations pages', '', '', ''],
-                ['• NMHC member profiles', '', '', ''],
-                ['• Industry publications (MHN, RealPage)', '', '', ''],
-                ['• LinkedIn company pages', '', '', ''],
-                ['• Property management software provider case studies', '', '', ''],
-                ['• Direct outreach for insurance partnership status', '', '', '']
-            );
-
-            const ws4 = XLSX.utils.aoa_to_sheet(verificationData);
-            ws4['!cols'] = [{wch: 35}, {wch: 20}, {wch: 50}, {wch: 40}];
-            XLSX.utils.book_append_sheet(wb, ws4, "🔍 Verification Checklist");
-            
-            // Executive summary
-            const tier1Count = midMarketPMCs.filter(c => c.tier === "Tier 1").length;
-            const tier2Count = midMarketPMCs.filter(c => c.tier === "Tier 2").length;
-            const tier1Units = midMarketPMCs.filter(c => c.tier === "Tier 1").reduce((sum, c) => sum + c.units, 0);
-            const avgScore = Math.round(midMarketPMCs.reduce((sum, c) => sum + c.totalScore, 0) / midMarketPMCs.length);
-            
-            const summaryData = [
-                ['MID-MARKET PMC TARGETING SUMMARY', ''],
-                ['Analysis Date:', new Date().toLocaleDateString()],
-                ['', ''],
-                ['TARGET MARKET ANALYSIS:', ''],
-                ['Total Companies Analyzed', midMarketPMCs.length],
-                ['Unit Range', '15,000 - 48,134 units'],
-                ['Average Portfolio Size', '25,619 units'],
-                ['Total Addressable Units', '2.25+ million units'],
-                ['', ''],
-                ['SCORING RESULTS:', ''],
-                ['Tier 1 Companies (Immediate Targets)', tier1Count],
-                ['Tier 1 Total Units', tier1Units.toLocaleString()],
-                ['Tier 2 Companies (High Priority)', tier2Count],
-                ['Average Score', avgScore + ' points'],
-                ['', ''],
-                ['TOP 5 IMMEDIATE TARGETS:', ''],
-                ['1. ' + midMarketPMCs[0].name, midMarketPMCs[0].totalScore + ' pts - ' + midMarketPMCs[0].units.toLocaleString() + ' units'],
-                ['2. ' + midMarketPMCs[1].name, midMarketPMCs[1].totalScore + ' pts - ' + midMarketPMCs[1].units.toLocaleString() + ' units'],
-                ['3. ' + midMarketPMCs[2].name, midMarketPMCs[2].totalScore + ' pts - ' + midMarketPMCs[2].units.toLocaleString() + ' units'],
-                ['4. ' + midMarketPMCs[3].name, midMarketPMCs[3].totalScore + ' pts - ' + midMarketPMCs[3].units.toLocaleString() + ' units'],
-                ['5. ' + midMarketPMCs[4].name, midMarketPMCs[4].totalScore + ' pts - ' + midMarketPMCs[4].units.toLocaleString() + ' units'],
-                ['', ''],
-                ['STRATEGIC ADVANTAGES OF MID-MARKET FOCUS:', ''],
-                ['✓ Faster decision-making than mega-PMCs', ''],
-                ['✓ Less entrenched insurance partnerships', ''],
-                ['✓ Meaningful volume (15k-40k units each)', ''],
-                ['✓ Growth-oriented and partnership-friendly', ''],
-                ['✓ Underserved by major insurance providers', ''],
-                ['', ''],
-                ['NEXT STEPS:', ''],
-                ['1. Verify data for Tier 1 companies', ''],
-                ['2. Develop outreach sequences for top targets', ''],
-                ['3. Create region-specific value propositions', ''],
-                ['4. Prioritize companies with high tech scores', ''],
-                ['5. Focus on private companies for faster decisions', '']
-            ];
-
-            const ws5 = XLSX.utils.aoa_to_sheet(summaryData);
-            ws5['!cols'] = [{wch: 40}, {wch: 30}];
-            XLSX.utils.book_append_sheet(wb, ws5, "📋 Executive Summary");
-            
-            // Generate filename
-            const now = new Date();
-            const filename = `Mid_Market_PMC_Analysis_${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}.xlsx`;
-            
-            // Download
-            XLSX.writeFile(wb, filename);
+            // Show notification
+            const notification = document.createElement('div');
+            notification.style.cssText = 'position: fixed; top: 20px; right: 20px; background: #007bff; color: white; padding: 15px 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); z-index: 1000;';
+            notification.textContent = 'Excel file downloaded successfully!';
+            document.body.appendChild(notification);
+            setTimeout(() => notification.remove(), 3000);
         }
-
-        // Initialize page
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('Mid-Market PMC Scoring Tool loaded');
-            console.log(`Analyzing ${midMarketPMCs.length} companies in the 15k-40k unit range`);
+        
+        // Add keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Ctrl/Cmd + E for export
+            if ((e.ctrlKey || e.metaKey) && e.key === 'e') {
+                e.preventDefault();
+                exportToExcel();
+            }
+            // Ctrl/Cmd + R for recalculate
+            if ((e.ctrlKey || e.metaKey) && e.key === 'r') {
+                e.preventDefault();
+                recalculateScores();
+            }
+            // Ctrl/Cmd + F for focus search
+            if ((e.ctrlKey || e.metaKey) && e.key === 'f') {
+                e.preventDefault();
+                document.getElementById('searchCompany').focus();
+            }
+        });
+        
+        // Print styling
+        window.addEventListener('beforeprint', function() {
+            // Expand all rows for printing
+            document.getElementById('filterTier').value = 'all';
+            document.getElementById('filterIntel').value = 'all';
+            renderTable();
         });
     </script>
+</body>
+</html>
