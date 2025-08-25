@@ -70,6 +70,25 @@
             margin-top: 5px;
         }
         
+        .chubb-badge {
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.75em;
+            font-weight: 600;
+            margin-left: 5px;
+        }
+        
+        .chubb-gce {
+            background: #FFD700;
+            color: #000;
+        }
+        
+        .chubb-major {
+            background: #87CEEB;
+            color: #000;
+        }
+        
         .controls {
             padding: 30px 40px;
             background: #f8f9fa;
@@ -472,6 +491,10 @@
                 <div class="stat-label">No Program</div>
             </div>
             <div class="stat">
+                <div class="stat-value" id="chubbClients">6</div>
+                <div class="stat-label">Chubb Clients</div>
+            </div>
+            <div class="stat">
                 <div class="stat-value" id="totalUnits">0</div>
                 <div class="stat-label">Total Units</div>
             </div>
@@ -500,6 +523,17 @@
             </div>
             
             <div class="control-group">
+                <label for="filterChubb">Chubb Relationship:</label>
+                <select id="filterChubb">
+                    <option value="all">All Companies</option>
+                    <option value="clients">Chubb Clients Only</option>
+                    <option value="gce">GCE Only</option>
+                    <option value="major">Major Account Only</option>
+                    <option value="none">Non-Clients</option>
+                </select>
+            </div>
+            
+            <div class="control-group">
                 <label for="searchCompany">Search:</label>
                 <input type="text" id="searchCompany" placeholder="Company name or provider...">
             </div>
@@ -517,9 +551,10 @@
                         <th style="width: 80px;">Units</th>
                         <th style="width: 80px;">Score</th>
                         <th style="width: 80px;">Tier</th>
+                        <th style="width: 100px;">Chubb Client</th>
                         <th style="width: 120px;">Current Status</th>
                         <th style="width: 150px;">Provider/Issues</th>
-                        <th style="width: 200px;">Key Intel</th>
+                        <th style="width: 180px;">Key Intel</th>
                         <th style="width: 120px;">Action</th>
                     </tr>
                 </thead>
@@ -553,6 +588,14 @@
             <div class="legend-item">
                 <span class="program-badge program-transition">Transition</span>
                 <span>Timing Opportunity</span>
+            </div>
+            <div class="legend-item">
+                <span class="chubb-badge chubb-gce">GCE</span>
+                <span>Global Client Executive</span>
+            </div>
+            <div class="legend-item">
+                <span class="chubb-badge chubb-major">Major Account</span>
+                <span>Chubb Client</span>
             </div>
         </div>
     </div>
@@ -701,12 +744,13 @@
                 hasIntel: true,
                 program: "transition",
                 provider: "Unknown",
+                chubbStatus: "Major",
                 intelligence: {
                     status: "Post-acquisition transition",
-                    opportunities: ["$10B Blackstone acquisition 2024", "Vendor review period"],
+                    opportunities: ["$10B Blackstone acquisition 2024", "Vendor review period", "Existing Chubb relationship"],
                     painPoints: ["Recent restructuring", "Integration challenges"],
-                    details: "Recently acquired by Blackstone, likely reviewing all vendor relationships",
-                    recommendation: "Perfect timing - move now"
+                    details: "Recently acquired by Blackstone, likely reviewing all vendor relationships. Major Account client of Chubb.",
+                    recommendation: "Perfect timing + warm intro - move now"
                 }
             },
             { 
@@ -729,12 +773,13 @@
                 hasIntel: true,
                 program: "mandatory",
                 provider: "Tenant choice",
+                chubbStatus: "Major",
                 intelligence: {
                     status: "Mandatory, tenant-sourced",
-                    opportunities: ["$100K liability requirement", "38,000+ units"],
+                    opportunities: ["$100K liability requirement", "38,000+ units", "Chubb Major Account client"],
                     painPoints: ["Manual verification", "No support system"],
-                    details: "Independence Realty Trust - requires proof but manual process",
-                    recommendation: "Automation value prop"
+                    details: "Independence Realty Trust - requires proof but manual process. Existing Chubb Major Account relationship.",
+                    recommendation: "Leverage Chubb relationship for warm intro"
                 }
             },
             { 
@@ -967,12 +1012,13 @@
                 hasIntel: true,
                 program: "mixed",
                 provider: "Lockton Affinity/Liberty Mutual",
+                chubbStatus: "GCE",
                 intelligence: {
                     status: "Commercial focus",
-                    opportunities: ["80+ communities", "Residential gap"],
+                    opportunities: ["80+ communities", "Residential gap", "GCE relationship - highest level"],
                     painPoints: ["Retail program only", "No residential"],
-                    details: "Strong commercial program but limited residential",
-                    recommendation: "Residential expansion"
+                    details: "Strong commercial program but limited residential. BROOKFIELD CORPORATION is a Chubb GCE client.",
+                    recommendation: "Executive-level approach via GCE"
                 }
             },
             { 
@@ -1107,12 +1153,13 @@
                 hasIntel: true,
                 program: "mandatory",
                 provider: "Assurant",
+                chubbStatus: "Major",
                 intelligence: {
                     status: "Existing Assurant partnership",
-                    opportunities: ["Family-owned 70+ years"],
+                    opportunities: ["Family-owned 70+ years", "Chubb Major Account client"],
                     painPoints: ["Service issues potential"],
-                    details: "Confirmed Assurant partnership",
-                    recommendation: "Service differentiation"
+                    details: "Confirmed Assurant partnership. Existing Chubb Major Account relationship.",
+                    recommendation: "Leverage relationship for displacement"
                 }
             },
             { 
@@ -1287,18 +1334,20 @@
                 hasIntel: true,
                 program: "unknown",
                 provider: null,
+                chubbStatus: "Major",
                 intelligence: {
                     status: "Inconsistent/Unknown",
-                    opportunities: ["Needs assessment"],
+                    opportunities: ["Needs assessment", "Chubb Major Account client"],
                     painPoints: [],
-                    details: "No specific requirements found",
-                    recommendation: "Research needed"
+                    details: "No specific requirements found. Existing Chubb Major Account relationship.",
+                    recommendation: "Use Chubb relationship for discovery"
                 }
             },
             { 
                 name: "AMC Management", 
                 units: 15000, 
-                hasIntel: false 
+                hasIntel: false,
+                chubbStatus: "Major"
             },
             { 
                 name: "Towne Properties", 
@@ -1410,14 +1459,21 @@
                     score += 5;
                 }
                 
-                // Market Position (15 points) - estimated
-                score += 10;
+                // Chubb Relationship (10 points)
+                if (company.chubbStatus === "GCE") {
+                    score += 10;
+                } else if (company.chubbStatus === "Major") {
+                    score += 7;
+                }
+                
+                // Market Position (10 points) - estimated
+                score += 8;
                 
                 // Growth (10 points) - estimated
                 score += 7;
                 
-                // Decision Speed (10 points) - estimated
-                score += 8;
+                // Decision Speed (5 points) - estimated
+                score += 5;
                 
             } else {
                 // Basic scoring
@@ -1434,6 +1490,13 @@
                     score += 10;
                 } else if (company.units >= 40000) {
                     score += 0;
+                }
+                
+                // Chubb Relationship (10 points)
+                if (company.chubbStatus === "GCE") {
+                    score += 10;
+                } else if (company.chubbStatus === "Major") {
+                    score += 7;
                 }
                 
                 score += 10; // Tech estimate
@@ -1483,6 +1546,7 @@
             const tbody = document.getElementById('tableBody');
             const filterTier = document.getElementById('filterTier').value;
             const filterProgram = document.getElementById('filterProgram').value;
+            const filterChubb = document.getElementById('filterChubb').value;
             const searchTerm = document.getElementById('searchCompany').value.toLowerCase();
             
             tbody.innerHTML = '';
@@ -1491,6 +1555,7 @@
             let tier2Count = 0;
             let withIntelCount = 0;
             let noProgramCount = 0;
+            let chubbClientCount = 0;
             let totalUnits = 0;
             let rank = 1;
             
@@ -1500,6 +1565,7 @@
                 if (company.tier === 2) tier2Count++;
                 if (company.hasIntel) withIntelCount++;
                 if (company.program === "none") noProgramCount++;
+                if (company.chubbStatus === "GCE" || company.chubbStatus === "Major") chubbClientCount++;
                 totalUnits += company.units;
                 
                 // Apply filters
@@ -1510,6 +1576,13 @@
                     if (filterProgram === 'weak' && !['weak', 'manual', 'problematic', 'unclear'].includes(company.program)) return;
                     if (filterProgram === 'transition' && !['transition', 'developing', 'mixed'].includes(company.program)) return;
                     if (filterProgram === 'competitor' && (!company.provider || company.provider === 'Tenant choice')) return;
+                }
+                
+                if (filterChubb !== 'all') {
+                    if (filterChubb === 'clients' && !company.chubbStatus) return;
+                    if (filterChubb === 'gce' && company.chubbStatus !== 'GCE') return;
+                    if (filterChubb === 'major' && company.chubbStatus !== 'Major') return;
+                    if (filterChubb === 'none' && company.chubbStatus) return;
                 }
                 
                 if (searchTerm) {
@@ -1582,6 +1655,16 @@
                     action = 'Research first';
                 }
                 
+                // Chubb Client column
+                let chubbBadge = '';
+                if (company.chubbStatus === 'GCE') {
+                    chubbBadge = '<span class="chubb-badge chubb-gce">GCE</span>';
+                } else if (company.chubbStatus === 'Major') {
+                    chubbBadge = '<span class="chubb-badge chubb-major">Major Account</span>';
+                } else {
+                    chubbBadge = '—';
+                }
+                
                 row.innerHTML = `
                     <td onclick="toggleDetails(${index})">
                         <span id="expand-${index}" class="expand-icon">›</span>
@@ -1594,6 +1677,7 @@
                     <td>${company.units.toLocaleString()}</td>
                     <td><strong>${company.score}</strong></td>
                     <td><span class="tier-badge">Tier ${company.tier}</span></td>
+                    <td>${chubbBadge}</td>
                     <td>${statusBadge}</td>
                     <td>${providerInfo}</td>
                     <td>${keyIntel}</td>
@@ -1671,6 +1755,7 @@
             document.getElementById('tier1Count').textContent = tier1Count;
             document.getElementById('withIntel').textContent = withIntelCount;
             document.getElementById('noProgram').textContent = noProgramCount;
+            document.getElementById('chubbClients').textContent = chubbClientCount;
             document.getElementById('totalUnits').textContent = (totalUnits / 1000).toFixed(0) + 'K';
         }
         
@@ -1680,6 +1765,7 @@
         // Event listeners
         document.getElementById('filterTier').addEventListener('change', renderTable);
         document.getElementById('filterProgram').addEventListener('change', renderTable);
+        document.getElementById('filterChubb').addEventListener('change', renderTable);
         document.getElementById('searchCompany').addEventListener('input', renderTable);
         
         // Export to Excel
@@ -1691,6 +1777,7 @@
                     'Units': company.units,
                     'Score': company.score,
                     'Tier': company.tier,
+                    'Chubb Client': company.chubbStatus || 'No',
                     'Intelligence Level': company.hasIntel ? 'Full Intelligence' : 'Basic Data',
                     'Current Program': company.program || 'Unknown',
                     'Current Provider': company.provider || 'None'
@@ -1710,7 +1797,7 @@
             const ws = XLSX.utils.json_to_sheet(exportData);
             const wb = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(wb, ws, "PMC Intelligence Report");
-            XLSX.writeFile(wb, "PMC_Intelligence_Report.xlsx");
+            XLSX.writeFile(wb, "PMC_Intelligence_Report_with_Chubb.xlsx");
         }
     </script>
 </body>
