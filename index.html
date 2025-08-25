@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PMC Intelligence & Prioritization Platform</title>
+    <title>Mid-Market PMC Intelligence & Prioritization Platform</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
         * {
@@ -44,6 +44,223 @@
         .header p {
             font-size: 1.1em;
             opacity: 0.95;
+        }
+        
+        .methodology-section {
+            background: white;
+            margin: 0;
+            padding: 0;
+            border-bottom: 3px solid #e9ecef;
+        }
+        
+        .methodology-header {
+            background: #f8f9fa;
+            padding: 30px 40px;
+            border-bottom: 2px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .methodology-header h2 {
+            color: #2c3e50;
+            margin: 0;
+            font-size: 1.6em;
+        }
+        
+        .methodology-toggle {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.95em;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.3s;
+        }
+        
+        .methodology-toggle:hover {
+            background: #764ba2;
+        }
+        
+        .methodology-content {
+            padding: 40px;
+            transition: all 0.3s ease-out;
+            overflow: hidden;
+            max-height: 2000px;
+        }
+        
+        .methodology-content.collapsed {
+            max-height: 0;
+            padding: 0 40px;
+        }
+        
+        .strategy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .strategy-box {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .strategy-box h3 {
+            color: #495057;
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+        
+        .strategy-box ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .strategy-box li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            line-height: 1.6;
+        }
+        
+        .strategy-box li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+        
+        .scoring-methodology {
+            margin-top: 40px;
+        }
+        
+        .scoring-methodology h3 {
+            color: #2c3e50;
+            margin-bottom: 25px;
+            font-size: 1.4em;
+            text-align: center;
+        }
+        
+        .scoring-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .scoring-category h4 {
+            color: #495057;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .scoring-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .scoring-table th {
+            background: #667eea;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+        
+        .scoring-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #e9ecef;
+            font-size: 0.9em;
+        }
+        
+        .scoring-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .scoring-table tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .tier-explanation {
+            margin-top: 40px;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+        
+        .tier-explanation h4 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.3em;
+        }
+        
+        .tier-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .tier-box {
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            border: 2px solid;
+        }
+        
+        .tier-1-box {
+            background: rgba(40, 167, 69, 0.1);
+            border-color: #28a745;
+        }
+        
+        .tier-1-box h5 {
+            color: #28a745;
+            margin-top: 0;
+        }
+        
+        .tier-2-box {
+            background: rgba(255, 193, 7, 0.1);
+            border-color: #ffc107;
+        }
+        
+        .tier-2-box h5 {
+            color: #f39c12;
+            margin-top: 0;
+        }
+        
+        .tier-3-box {
+            background: rgba(220, 53, 69, 0.1);
+            border-color: #dc3545;
+        }
+        
+        .tier-3-box h5 {
+            color: #dc3545;
+            margin-top: 0;
+        }
+        
+        .tier-box p {
+            margin: 10px 0;
+            font-size: 0.95em;
+            color: #495057;
         }
         
         .stats-bar {
@@ -439,11 +656,33 @@
             .details-grid {
                 grid-template-columns: 1fr;
             }
+            
+            .scoring-grid {
+                grid-template-columns: 1fr;
+            }
         }
         
         @media (max-width: 768px) {
             .header h1 {
                 font-size: 1.8em;
+            }
+            
+            .methodology-header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .methodology-header h2 {
+                font-size: 1.2em;
+            }
+            
+            .strategy-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tier-grid {
+                grid-template-columns: 1fr;
             }
             
             .stats-bar {
@@ -469,8 +708,175 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🎯 PMC Intelligence & Prioritization Platform</h1>
-            <p>Comprehensive Market Intelligence for Strategic Outreach</p>
+            <h1>🎯 Mid-Market PMC Intelligence & Prioritization Platform</h1>
+            <p>Strategic Outreach Tool for Property Management Companies (15-50K Units)</p>
+        </div>
+        
+        <div class="methodology-section">
+            <div class="methodology-header">
+                <h2>📊 Strategic Focus: Mid-Market Property Management Companies (15-50K Units)</h2>
+                <button class="methodology-toggle" onclick="toggleMethodology()">
+                    <span id="methodologyToggleText">Hide Details</span> 
+                    <span id="methodologyToggleIcon">▼</span>
+                </button>
+            </div>
+            
+            <div class="methodology-content" id="methodologyContent">
+                <div class="strategy-grid">
+                    <div class="strategy-box">
+                        <h3>🎯 Why Mid-Market PMCs?</h3>
+                        <ul>
+                            <li><strong>Decision Speed:</strong> Faster than REITs, more sophisticated than small operators</li>
+                            <li><strong>Growth Trajectory:</strong> Actively expanding through acquisitions and development</li>
+                            <li><strong>Technology Adoption:</strong> Investing in resident experience and operational efficiency</li>
+                            <li><strong>Relationship Value:</strong> Large enough for meaningful revenue, small enough for partnership</li>
+                            <li><strong>Market Gap:</strong> Often overlooked by major insurers focused on top 20 REITs</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="strategy-box">
+                        <h3>🔍 Intelligence Sources</h3>
+                        <ul>
+                            <li><strong>Full Intelligence (45 companies):</strong> Comprehensive research including current programs, providers, pain points, and transition events</li>
+                            <li><strong>Basic Data (39 companies):</strong> Portfolio size and market position with estimated scoring</li>
+                            <li><strong>Chubb Relationships:</strong> 6 existing commercial clients identified for warm introductions</li>
+                            <li><strong>Market Research:</strong> Analysis of 80+ PMCs' insurance programs and gaps</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="scoring-methodology">
+                    <h3>📈 Intelligent Scoring Methodology (100 Points Maximum)</h3>
+                    
+                    <div class="scoring-grid">
+                        <div class="scoring-category">
+                            <h4>Enhanced Scoring (With Full Intelligence)</h4>
+                            <table class="scoring-table">
+                                <tr>
+                                    <th>Criteria</th>
+                                    <th>Points</th>
+                                    <th>Key Factors</th>
+                                </tr>
+                                <tr>
+                                    <td><strong>Current Program Status</strong></td>
+                                    <td>20</td>
+                                    <td>No program (20) → Transition (18) → Weak (15) → Optional (12) → Mandatory (3-8)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Portfolio Size Fit</strong></td>
+                                    <td>15</td>
+                                    <td>25-35K units (15) → 20-25K (12) → 15-20K (10) → 35-40K (8) → 40K+ (0)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Opportunity Signals</strong></td>
+                                    <td>15</td>
+                                    <td>Acquisitions, transitions, RFPs, regulatory issues, pain points</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Tech/Infrastructure</strong></td>
+                                    <td>15</td>
+                                    <td>No system (15) → Manual processes (12) → Basic tech (10) → Advanced (5)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Chubb Relationship</strong></td>
+                                    <td>10</td>
+                                    <td>GCE client (10) → Major Account (7) → No relationship (0)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Market Position</strong></td>
+                                    <td>10</td>
+                                    <td>Premium focus, Class A properties, institutional quality</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Growth Trajectory</strong></td>
+                                    <td>10</td>
+                                    <td>Expanding rapidly → Steady growth → Stable → Contracting</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Decision Speed</strong></td>
+                                    <td>5</td>
+                                    <td>Private ownership → Family-owned → REIT structure</td>
+                                </tr>
+                            </table>
+                        </div>
+                        
+                        <div class="scoring-category">
+                            <h4>Basic Scoring (Without Full Intelligence)</h4>
+                            <table class="scoring-table">
+                                <tr>
+                                    <th>Criteria</th>
+                                    <th>Points</th>
+                                    <th>Estimation Basis</th>
+                                </tr>
+                                <tr>
+                                    <td><strong>Portfolio Size</strong></td>
+                                    <td>20</td>
+                                    <td>Optimal size for partnership readiness</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Class A Focus</strong></td>
+                                    <td>15</td>
+                                    <td>Estimated based on markets and brand</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Tech Leadership</strong></td>
+                                    <td>10</td>
+                                    <td>Industry reputation and platform adoption</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Growth Focus</strong></td>
+                                    <td>10</td>
+                                    <td>Recent acquisitions and developments</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Chubb Relationship</strong></td>
+                                    <td>10</td>
+                                    <td>Known commercial relationships</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Partnership Readiness</strong></td>
+                                    <td>7</td>
+                                    <td>Organizational sophistication</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Decision Speed</strong></td>
+                                    <td>8</td>
+                                    <td>Ownership structure</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div class="tier-explanation">
+                        <h4>🏆 Priority Tier System</h4>
+                        <div class="tier-grid">
+                            <div class="tier-box tier-1-box">
+                                <h5>Tier 1 (75+ Points)</h5>
+                                <p>Immediate outreach targets. High opportunity, ready to move, clear value proposition.</p>
+                                <p><strong>Target: 10-15 companies</strong></p>
+                            </div>
+                            <div class="tier-box tier-2-box">
+                                <h5>Tier 2 (60-74 Points)</h5>
+                                <p>Priority prospects requiring relationship building or market timing.</p>
+                                <p><strong>Target: 20-25 companies</strong></p>
+                            </div>
+                            <div class="tier-box tier-3-box">
+                                <h5>Tier 3 (<60 Points)</h5>
+                                <p>Longer-term opportunities needing research or market development.</p>
+                                <p><strong>Target: 45+ companies</strong></p>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: 25px; padding: 20px; background: white; border-radius: 8px; border: 1px solid #dee2e6;">
+                            <p style="text-align: center; color: #6c757d; font-size: 0.95em; margin: 0;">
+                                <strong>Note:</strong> This tool combines market research, intelligence gathering, and Chubb relationship data to create a dynamic prioritization system. 
+                                Scores are automatically recalculated as new intelligence becomes available. Companies with <span style="color: #28a745;">●</span> have verified intelligence, 
+                                while those with <span style="color: #6c757d;">●</span> use estimated scoring pending research.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         
         <div class="stats-bar">
@@ -601,6 +1007,23 @@
     </div>
     
     <script>
+        // Toggle methodology section
+        function toggleMethodology() {
+            const content = document.getElementById('methodologyContent');
+            const toggleText = document.getElementById('methodologyToggleText');
+            const toggleIcon = document.getElementById('methodologyToggleIcon');
+            
+            if (content.classList.contains('collapsed')) {
+                content.classList.remove('collapsed');
+                toggleText.textContent = 'Hide Details';
+                toggleIcon.textContent = '▼';
+            } else {
+                content.classList.add('collapsed');
+                toggleText.textContent = 'Show Details';
+                toggleIcon.textContent = '▶';
+            }
+        }
+        
         // Enhanced company data with full intelligence
         const companies = [
             { 
@@ -1797,7 +2220,7 @@
             const ws = XLSX.utils.json_to_sheet(exportData);
             const wb = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(wb, ws, "PMC Intelligence Report");
-            XLSX.writeFile(wb, "PMC_Intelligence_Report_with_Chubb.xlsx");
+            XLSX.writeFile(wb, "Mid_Market_PMC_Intelligence_Report.xlsx");
         }
     </script>
 </body>
