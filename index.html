@@ -3,15 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Enhanced PMC Prioritization Tool with Intelligence Integration for Strategic Outreach">
-    <meta name="author" content="Renters Insurance Business Development">
-    <title>Enhanced PMC Prioritization Tool - Intelligence Edition</title>
-    
-    <!-- Excel Export Library -->
+    <title>PMC Intelligence & Prioritization Platform</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-    
     <style>
-        /* Reset and Base Styles */
         * {
             margin: 0;
             padding: 0;
@@ -19,16 +13,14 @@
         }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 20px;
-            line-height: 1.6;
         }
         
-        /* Container */
         .container {
-            max-width: 1600px;
+            max-width: 1800px;
             margin: 0 auto;
             background: white;
             border-radius: 20px;
@@ -36,7 +28,6 @@
             overflow: hidden;
         }
         
-        /* Header */
         .header {
             background: linear-gradient(135deg, #e67e22 0%, #d35400 100%);
             color: white;
@@ -55,20 +46,16 @@
             opacity: 0.95;
         }
         
-        /* Stats Bar */
         .stats-bar {
             background: #f8f9fa;
             padding: 20px 40px;
             display: flex;
             justify-content: space-around;
             border-bottom: 2px solid #e9ecef;
-            flex-wrap: wrap;
-            gap: 20px;
         }
         
         .stat {
             text-align: center;
-            min-width: 120px;
         }
         
         .stat-value {
@@ -83,7 +70,6 @@
             margin-top: 5px;
         }
         
-        /* Controls */
         .controls {
             padding: 30px 40px;
             background: #f8f9fa;
@@ -113,7 +99,6 @@
             border-radius: 8px;
             font-size: 1em;
             transition: border-color 0.3s;
-            background: white;
         }
         
         .control-group select:focus,
@@ -122,7 +107,6 @@
             border-color: #667eea;
         }
         
-        /* Buttons */
         .btn {
             padding: 12px 30px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -133,7 +117,6 @@
             font-weight: 600;
             cursor: pointer;
             transition: transform 0.2s, box-shadow 0.2s;
-            white-space: nowrap;
         }
         
         .btn:hover {
@@ -145,7 +128,6 @@
             background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
         }
         
-        /* Table */
         .table-container {
             padding: 0 40px 40px;
             overflow-x: auto;
@@ -159,7 +141,7 @@
         
         th {
             background: #f8f9fa;
-            padding: 15px;
+            padding: 15px 12px;
             text-align: left;
             font-weight: 600;
             color: #495057;
@@ -167,29 +149,112 @@
             position: sticky;
             top: 0;
             z-index: 10;
+            font-size: 0.9em;
             white-space: nowrap;
         }
         
         td {
-            padding: 12px 15px;
+            padding: 12px;
             border-bottom: 1px solid #e9ecef;
+            font-size: 0.95em;
         }
         
         tr:hover {
             background: #f8f9fa;
         }
         
-        /* Tier Styling */
+        .expandable-row {
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .expandable-row:hover {
+            background: #e8f4f8;
+        }
+        
+        .expand-icon {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            line-height: 20px;
+            text-align: center;
+            background: #e9ecef;
+            border-radius: 4px;
+            margin-right: 8px;
+            font-weight: bold;
+            color: #495057;
+            transition: transform 0.2s;
+        }
+        
+        .expand-icon.expanded {
+            transform: rotate(90deg);
+        }
+        
+        .details-row {
+            display: none;
+            background: #f8fafb;
+        }
+        
+        .details-row.show {
+            display: table-row;
+        }
+        
+        .details-content {
+            padding: 20px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .detail-section {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+        }
+        
+        .detail-section h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 0.95em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .detail-item {
+            margin: 8px 0;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .detail-label {
+            font-weight: 600;
+            color: #495057;
+            margin-right: 8px;
+            min-width: 100px;
+            font-size: 0.9em;
+        }
+        
+        .detail-value {
+            color: #212529;
+            flex: 1;
+            font-size: 0.9em;
+        }
+        
         .tier-1 {
-            background: linear-gradient(90deg, #d4edda 0%, transparent 100%);
+            background: linear-gradient(90deg, rgba(40, 167, 69, 0.1) 0%, transparent 100%);
         }
         
         .tier-2 {
-            background: linear-gradient(90deg, #fff3cd 0%, transparent 100%);
+            background: linear-gradient(90deg, rgba(255, 193, 7, 0.1) 0%, transparent 100%);
         }
         
         .tier-3 {
-            background: linear-gradient(90deg, #f8d7da 0%, transparent 100%);
+            background: linear-gradient(90deg, rgba(220, 53, 69, 0.1) 0%, transparent 100%);
         }
         
         .tier-badge {
@@ -216,89 +281,96 @@
             color: white;
         }
         
-        /* Score Bar */
-        .score-bar {
-            width: 100%;
-            height: 8px;
-            background: #e9ecef;
-            border-radius: 4px;
-            overflow: hidden;
-            margin-top: 5px;
-        }
-        
-        .score-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-            transition: width 0.3s;
-        }
-        
-        /* Intelligence Badges */
-        .data-badge {
+        .program-badge {
             display: inline-block;
             padding: 3px 8px;
-            border-radius: 12px;
-            font-size: 0.75em;
-            font-weight: 600;
-            margin-left: 8px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            font-weight: 500;
+            white-space: nowrap;
         }
         
-        .data-full {
-            background: #28a745;
-            color: white;
+        .program-none {
+            background: #d4edda;
+            color: #155724;
         }
         
-        .data-basic {
-            background: #6c757d;
-            color: white;
+        .program-weak {
+            background: #cce5ff;
+            color: #004085;
         }
         
-        .intel-icon {
+        .program-strong {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .program-transition {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .intel-indicator {
             display: inline-block;
-            width: 20px;
-            height: 20px;
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
-            text-align: center;
-            line-height: 20px;
-            font-size: 12px;
-            font-weight: bold;
             margin-right: 5px;
         }
         
         .intel-full {
             background: #28a745;
-            color: white;
         }
         
         .intel-basic {
-            background: #e9ecef;
-            color: #6c757d;
+            background: #6c757d;
         }
         
-        /* Program Status */
-        .program-status {
-            padding: 3px 8px;
+        .pain-point {
+            display: inline-block;
+            background: #ffe5e5;
+            color: #d00;
+            padding: 2px 8px;
             border-radius: 4px;
             font-size: 0.85em;
-            font-weight: 500;
+            margin: 2px;
+        }
+        
+        .opportunity-tag {
             display: inline-block;
+            background: #e5f5e5;
+            color: #0a0;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            margin: 2px;
         }
         
-        .status-none {
-            background: #d4edda;
-            color: #155724;
+        .provider-tag {
+            display: inline-block;
+            background: #e5e5ff;
+            color: #00d;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            margin: 2px;
         }
         
-        .status-weak {
-            background: #cce5ff;
-            color: #004085;
+        .action-urgent {
+            color: #d00;
+            font-weight: 600;
         }
         
-        .status-competitor {
-            background: #f8d7da;
-            color: #721c24;
+        .action-priority {
+            color: #f90;
+            font-weight: 600;
         }
         
-        /* Legend */
+        .action-standard {
+            color: #090;
+            font-weight: 600;
+        }
+        
         .legend {
             padding: 20px 40px;
             background: #f8f9fa;
@@ -314,29 +386,42 @@
             gap: 8px;
         }
         
-        /* Export Section */
-        .export-section {
-            padding: 20px 40px;
-            background: white;
-            border-top: 1px solid #e9ecef;
-            text-align: center;
+        .tooltip {
+            position: relative;
+            cursor: help;
+            border-bottom: 1px dotted #666;
         }
         
-        /* Info Box */
-        .info-box {
-            background: #d1ecf1;
-            border: 1px solid #bee5eb;
-            color: #0c5460;
-            padding: 15px;
-            border-radius: 8px;
-            margin: 20px 40px;
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 300px;
+            background-color: #333;
+            color: #fff;
+            text-align: left;
+            border-radius: 6px;
+            padding: 10px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -150px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.85em;
+            line-height: 1.4;
         }
         
-        .info-box h3 {
-            margin-bottom: 10px;
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
         }
         
-        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .details-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
         @media (max-width: 768px) {
             .header h1 {
                 font-size: 1.8em;
@@ -351,124 +436,91 @@
                 flex-direction: column;
             }
             
-            .control-group {
-                width: 100%;
-            }
-            
             .table-container {
                 padding: 0 20px 20px;
             }
             
             th, td {
-                padding: 8px;
-                font-size: 0.9em;
-            }
-            
-            .legend {
-                flex-direction: column;
-                gap: 10px;
-            }
-        }
-        
-        /* Print Styles */
-        @media print {
-            body {
-                background: white;
-                padding: 0;
-            }
-            
-            .controls,
-            .export-section {
-                display: none;
-            }
-            
-            .container {
-                box-shadow: none;
-                border-radius: 0;
+                padding: 8px 5px;
+                font-size: 0.85em;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Header -->
         <div class="header">
-            <h1>🎯 Enhanced PMC Prioritization Tool</h1>
-            <p>Intelligence-Driven Outreach Strategy with Research Integration</p>
+            <h1>🎯 PMC Intelligence & Prioritization Platform</h1>
+            <p>Comprehensive Market Intelligence for Strategic Outreach</p>
         </div>
         
-        <!-- Statistics Bar -->
         <div class="stats-bar">
             <div class="stat">
                 <div class="stat-value" id="totalCompanies">84</div>
-                <div class="stat-label">Total Companies</div>
+                <div class="stat-label">Total PMCs</div>
             </div>
             <div class="stat">
                 <div class="stat-value" id="tier1Count">0</div>
-                <div class="stat-label">Tier 1 (Immediate)</div>
-            </div>
-            <div class="stat">
-                <div class="stat-value" id="tier2Count">0</div>
-                <div class="stat-label">Tier 2 (Priority)</div>
+                <div class="stat-label">Tier 1 (75+)</div>
             </div>
             <div class="stat">
                 <div class="stat-value" id="withIntel">0</div>
-                <div class="stat-label">With Intelligence</div>
+                <div class="stat-label">With Full Intel</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="noProgram">0</div>
+                <div class="stat-label">No Program</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="totalUnits">0</div>
+                <div class="stat-label">Total Units</div>
             </div>
         </div>
         
-        <!-- Info Box -->
-        <div class="info-box">
-            <h3>📊 How This Tool Works</h3>
-            <p>Companies with <strong>Full Intelligence</strong> (✓) use enhanced scoring based on actual research data including current programs, providers, and pain points. 
-            Companies with <strong>Basic Data</strong> (?) use estimated scoring and should be researched before outreach. 
-            Filter and sort to identify your highest-priority targets with confidence.</p>
-        </div>
-        
-        <!-- Controls -->
         <div class="controls">
             <div class="control-group">
                 <label for="filterTier">Filter by Tier:</label>
                 <select id="filterTier">
                     <option value="all">All Tiers</option>
-                    <option value="1">Tier 1 Only (75+ points)</option>
-                    <option value="2">Tier 2 Only (60-74 points)</option>
-                    <option value="3">Tier 3 Only (&lt;60 points)</option>
+                    <option value="1">Tier 1 (75+)</option>
+                    <option value="2">Tier 2 (60-74)</option>
+                    <option value="3">Tier 3 (<60)</option>
                 </select>
             </div>
             
             <div class="control-group">
-                <label for="filterIntel">Filter by Intelligence:</label>
-                <select id="filterIntel">
-                    <option value="all">All Companies</option>
-                    <option value="full">With Full Intelligence</option>
-                    <option value="basic">Basic Data Only</option>
+                <label for="filterProgram">Filter by Program:</label>
+                <select id="filterProgram">
+                    <option value="all">All Programs</option>
+                    <option value="none">No Program</option>
+                    <option value="weak">Weak/Manual</option>
+                    <option value="transition">In Transition</option>
+                    <option value="competitor">Has Competitor</option>
                 </select>
             </div>
             
             <div class="control-group">
-                <label for="searchCompany">Search Company:</label>
-                <input type="text" id="searchCompany" placeholder="Type to search...">
+                <label for="searchCompany">Search:</label>
+                <input type="text" id="searchCompany" placeholder="Company name or provider...">
             </div>
             
-            <button class="btn" onclick="recalculateScores()">Recalculate Scores</button>
-            <button class="btn btn-secondary" onclick="exportToExcel()">Export to Excel</button>
+            <button class="btn" onclick="exportToExcel()">Export Full Report</button>
         </div>
         
-        <!-- Table -->
         <div class="table-container">
             <table id="companyTable">
                 <thead>
                     <tr>
-                        <th>Rank</th>
-                        <th>Company</th>
-                        <th>Units</th>
-                        <th>Score</th>
-                        <th>Tier</th>
-                        <th>Intel Status</th>
-                        <th>Current Program</th>
-                        <th>Opportunity</th>
-                        <th>Action</th>
+                        <th style="width: 40px;"></th>
+                        <th style="width: 60px;">Rank</th>
+                        <th style="width: 250px;">Company</th>
+                        <th style="width: 80px;">Units</th>
+                        <th style="width: 80px;">Score</th>
+                        <th style="width: 80px;">Tier</th>
+                        <th style="width: 120px;">Current Status</th>
+                        <th style="width: 150px;">Provider/Issues</th>
+                        <th style="width: 200px;">Key Intel</th>
+                        <th style="width: 120px;">Action</th>
                     </tr>
                 </thead>
                 <tbody id="tableBody">
@@ -477,260 +529,922 @@
             </table>
         </div>
         
-        <!-- Legend -->
         <div class="legend">
             <div class="legend-item">
-                <span class="intel-icon intel-full">✓</span>
-                <span>Full Intelligence Available</span>
+                <span class="intel-indicator intel-full"></span>
+                <span>Full Intelligence</span>
             </div>
             <div class="legend-item">
-                <span class="intel-icon intel-basic">?</span>
-                <span>Basic Data Only</span>
+                <span class="intel-indicator intel-basic"></span>
+                <span>Basic Data</span>
             </div>
             <div class="legend-item">
-                <span class="program-status status-none">No Program</span>
-                <span>Greenfield Opportunity</span>
+                <span class="program-badge program-none">No Program</span>
+                <span>Greenfield</span>
             </div>
             <div class="legend-item">
-                <span class="program-status status-weak">Weak Program</span>
-                <span>Enhancement Opportunity</span>
+                <span class="program-badge program-weak">Weak/Manual</span>
+                <span>Enhancement</span>
             </div>
             <div class="legend-item">
-                <span class="program-status status-competitor">Competitor</span>
-                <span>Displacement Opportunity</span>
+                <span class="program-badge program-strong">Competitor</span>
+                <span>Displacement</span>
             </div>
-        </div>
-        
-        <!-- Export Section -->
-        <div class="export-section">
-            <p>Use filters to refine your target list, then export for CRM integration</p>
-            <p style="margin-top: 10px; font-size: 0.9em; color: #6c757d;">
-                Data current as of November 2024 | Created for Renters Insurance Business Development
-            </p>
+            <div class="legend-item">
+                <span class="program-badge program-transition">Transition</span>
+                <span>Timing Opportunity</span>
+            </div>
         </div>
     </div>
     
     <script>
-        // Complete company data with intelligence indicators
+        // Enhanced company data with full intelligence
         const companies = [
-            { name: "GoldOller Real Estate Investments", units: 48134, hasIntel: false },
-            { name: "GID / Windsor Communities", units: 48071, hasIntel: false },
-            { name: "Balfour Beatty Communities", units: 47485, hasIntel: false },
-            { name: "Pegasus Residential", units: 46264, hasIntel: false },
-            { name: "Drucker + Falk", units: 43294, hasIntel: false },
-            { name: "Dominium", units: 43199, hasIntel: false },
-            { name: "Trinity Property Consultants", units: 42706, hasIntel: false },
-            { name: "Elmington", units: 38953, hasIntel: false },
-            { name: "Fairfield Residential", units: 38790, hasIntel: false },
-            { name: "Berkshire Residential Investments", units: 38703, hasIntel: false },
-            { name: "United Apartment Group*", units: 37521, hasIntel: false },
-            { name: "Mission Rock Residential", units: 37236, hasIntel: false },
-            { name: "Franklin Group", units: 36630, hasIntel: false },
-            { name: "Westdale Real Estate Investment & Management", units: 36313, hasIntel: true, program: "none", provider: null },
-            { name: "Valiant Residential*", units: 35724, hasIntel: true, program: "optional", provider: "Unknown (engaging London)" },
-            { name: "Beztak", units: 34958, hasIntel: true, program: "mandatory", provider: "Popic & Habitat" },
-            { name: "Knightvest Capital", units: 34697, hasIntel: true, program: "none", provider: null },
-            { name: "Lindsey Management Co, Inc", units: 33668, hasIntel: true, program: "none", provider: null },
-            { name: "AIR Communities", units: 33410, hasIntel: true, program: "transition", provider: "Unknown (Blackstone acquisition)" },
-            { name: "Weidner Apartments Homes", units: 32244, hasIntel: true, program: "mandatory", provider: "Tenant choice" },
-            { name: "IRT Living", units: 31636, hasIntel: true, program: "mandatory", provider: "Tenant choice" },
-            { name: "Waterton", units: 31593, hasIntel: true, program: "unknown", provider: null },
-            { name: "CWS Capital Partners", units: 30171, hasIntel: true, program: "mandatory", provider: "RealPage" },
-            { name: "Allied Orion", units: 30000, hasIntel: true, program: "limited", provider: "Unknown" },
-            { name: "American Landmark Apartments", units: 29144, hasIntel: true, program: "mandatory", provider: "Multiple" },
-            { name: "S.L. Nusbaum Realty Co.", units: 29105, hasIntel: true, program: "unknown", provider: "S.L. Nusbaum Insurance" },
-            { name: "Gables Residential", units: 28025, hasIntel: true, program: "optional", provider: null },
-            { name: "Fogelman Properties", units: 28022, hasIntel: true, program: "none", provider: null },
-            { name: "Kairoi Residential", units: 27777, hasIntel: true, program: "none", provider: null },
-            { name: "Two Coast Living", units: 27770, hasIntel: true, program: "none", provider: null },
-            { name: "Northland", units: 27692, hasIntel: true, program: "mandatory", provider: "Unknown" },
-            { name: "Mill Creek Residential", units: 27279, hasIntel: true, program: "mandatory", provider: "Tenant choice" },
-            { name: "Bryten Real Estate Partners", units: 27017, hasIntel: true, program: "likely", provider: "LFT/Markel (CA/TX only)" },
-            { name: "Arlington Properties", units: 26800, hasIntel: true, program: "none", provider: null },
-            { name: "The Inland Real Estate Group of Cos. Inc.", units: 26276, hasIntel: true, program: "mandatory", provider: "Assurant" },
-            { name: "Sentinel Real Estate Corporation", units: 26153, hasIntel: true, program: "none", provider: null },
-            { name: "Landmark Properties Inc.", units: 25749, hasIntel: true, program: "optional", provider: "Multiple" },
-            { name: "Brookfield Properties", units: 25004, hasIntel: true, program: "mandatory", provider: "Lockton Affinity" },
-            { name: "Southwood Realty Company", units: 24800, hasIntel: true, program: "mandatory", provider: "MRI Software" },
-            { name: "S2 Residential", units: 24459, hasIntel: true, program: "none", provider: null },
-            { name: "Envolve Client Services Group", units: 24009, hasIntel: true, program: "none", provider: null },
-            { name: "Coastal Ridge Real Estate", units: 23557, hasIntel: true, program: "none", provider: null },
-            { name: "General Services Corporation", units: 22286, hasIntel: true, program: "none", provider: null },
-            { name: "Continental Properties Company", units: 21658, hasIntel: true, program: "varies", provider: "ResidentShield (partial)" },
-            { name: "Garden Communities", units: 21543, hasIntel: true, program: "variable", provider: "Effective Coverage (CA)" },
-            { name: "Kushner Companies", units: 20000, hasIntel: true, program: "none", provider: null },
-            { name: "Timberland Partners", units: 20000, hasIntel: true, program: "unclear", provider: null },
-            { name: "Weinstein Properties", units: 20000, hasIntel: true, program: "mandatory", provider: "Assurant" },
-            { name: "TAM Residential", units: 19609, hasIntel: true, program: "none", provider: null },
-            { name: "Case & Associates", units: 19270, hasIntel: true, program: "none", provider: null },
-            { name: "Birge & Held", units: 19024, hasIntel: true, program: "problematic", provider: "Unknown" },
-            { name: "Princeton Management", units: 18883, hasIntel: true, program: "unclear", provider: null },
-            { name: "Blanton Turner", units: 18746, hasIntel: false },
-            { name: "Steadfast Companies", units: 18589, hasIntel: false },
-            { name: "First Communities", units: 18508, hasIntel: false },
-            { name: "Roberts Companies", units: 18382, hasIntel: false },
-            { name: "Laramar Group", units: 18334, hasIntel: false },
-            { name: "CA Student Living", units: 18290, hasIntel: false },
-            { name: "AION Partners LLC", units: 18109, hasIntel: false },
-            { name: "Corvias", units: 18023, hasIntel: false },
-            { name: "Peak Campus", units: 17935, hasIntel: false },
-            { name: "EdR", units: 17787, hasIntel: false },
-            { name: "Campus Crest Communities", units: 17531, hasIntel: false },
-            { name: "Pierce Education Properties", units: 17482, hasIntel: false },
-            { name: "The Scion Group", units: 17309, hasIntel: false },
-            { name: "Preiss Company", units: 17259, hasIntel: false },
-            { name: "Cardinal Group", units: 17162, hasIntel: false },
-            { name: "Capstone Real Estate Investments", units: 17113, hasIntel: false },
-            { name: "CA Ventures", units: 17032, hasIntel: false },
-            { name: "University Partners", units: 16960, hasIntel: false },
-            { name: "Core Spaces", units: 16942, hasIntel: false },
-            { name: "American Campus Communities", units: 16752, hasIntel: false },
-            { name: "The Dinerstein Companies", units: 16712, hasIntel: false },
-            { name: "CHNM", units: 16468, hasIntel: false },
-            { name: "Brookside Properties", units: 15000, hasIntel: true, program: "unknown", provider: null },
-            { name: "AMC Management", units: 15000, hasIntel: false },
-            { name: "Towne Properties", units: 15000, hasIntel: false },
-            { name: "Grand Peaks Properties", units: 15000, hasIntel: false },
-            { name: "Monument Real Estate Services", units: 15000, hasIntel: false },
-            { name: "Tower 16 Capital Partners", units: 15000, hasIntel: false },
-            { name: "St. John Properties", units: 15000, hasIntel: false },
-            { name: "Redwood Living", units: 15000, hasIntel: false },
-            { name: "Hayman Company", units: 15000, hasIntel: false },
-            { name: "National Property Management Associates", units: 15000, hasIntel: false }
+            { 
+                name: "GoldOller Real Estate Investments", 
+                units: 48134, 
+                hasIntel: false 
+            },
+            { 
+                name: "GID / Windsor Communities", 
+                units: 48071, 
+                hasIntel: false 
+            },
+            { 
+                name: "Balfour Beatty Communities", 
+                units: 47485, 
+                hasIntel: false 
+            },
+            { 
+                name: "Pegasus Residential", 
+                units: 46264, 
+                hasIntel: false 
+            },
+            { 
+                name: "Drucker + Falk", 
+                units: 43294, 
+                hasIntel: false 
+            },
+            { 
+                name: "Dominium", 
+                units: 43199, 
+                hasIntel: false 
+            },
+            { 
+                name: "Trinity Property Consultants", 
+                units: 42706, 
+                hasIntel: false 
+            },
+            { 
+                name: "Elmington", 
+                units: 38953, 
+                hasIntel: false 
+            },
+            { 
+                name: "Fairfield Residential", 
+                units: 38790, 
+                hasIntel: false 
+            },
+            { 
+                name: "Berkshire Residential Investments", 
+                units: 38703, 
+                hasIntel: false 
+            },
+            { 
+                name: "United Apartment Group*", 
+                units: 37521, 
+                hasIntel: false 
+            },
+            { 
+                name: "Mission Rock Residential", 
+                units: 37236, 
+                hasIntel: false 
+            },
+            { 
+                name: "Franklin Group", 
+                units: 36630, 
+                hasIntel: false 
+            },
+            { 
+                name: "Westdale Real Estate Investment & Management", 
+                units: 36313, 
+                hasIntel: true,
+                program: "none",
+                provider: null,
+                intelligence: {
+                    status: "No current program",
+                    opportunities: ["Greenfield opportunity", "40,000+ units unprotected"],
+                    painPoints: [],
+                    details: "No renters insurance requirements found across portfolio",
+                    recommendation: "Immediate high-value target"
+                }
+            },
+            { 
+                name: "Valiant Residential*", 
+                units: 35724, 
+                hasIntel: true,
+                program: "developing",
+                provider: "Engaging London underwriters",
+                intelligence: {
+                    status: "Actively developing program",
+                    opportunities: ["Currently shopping for provider", "Executive engagement"],
+                    painPoints: ["Looking for exclusive national program"],
+                    details: "Executives actively engaging with London underwriters for optional national program",
+                    recommendation: "Move fast - active RFP"
+                }
+            },
+            { 
+                name: "Beztak", 
+                units: 34958, 
+                hasIntel: true,
+                program: "mandatory",
+                provider: "Popic & Habitat Specialty",
+                intelligence: {
+                    status: "Auto-enrollment program",
+                    opportunities: ["95%+ participation rate model"],
+                    painPoints: ["$19/month damage waiver"],
+                    details: "Auto-enrollment with opt-out, Confirm Insurance + Inzu partnership",
+                    recommendation: "Study displacement angle"
+                }
+            },
+            { 
+                name: "Knightvest Capital", 
+                units: 34697, 
+                hasIntel: true,
+                program: "none",
+                provider: null,
+                intelligence: {
+                    status: "No program",
+                    opportunities: ["55,000+ units opportunity", "No requirements"],
+                    painPoints: [],
+                    details: "No renters insurance requirements found",
+                    recommendation: "High-priority greenfield"
+                }
+            },
+            { 
+                name: "Lindsey Management Co, Inc", 
+                units: 33668, 
+                hasIntel: true,
+                program: "none",
+                provider: null,
+                intelligence: {
+                    status: "No program",
+                    opportunities: ["40,000+ units", "Regional concentration"],
+                    painPoints: [],
+                    details: "No requirements across portfolio",
+                    recommendation: "Regional approach opportunity"
+                }
+            },
+            { 
+                name: "AIR Communities", 
+                units: 33410, 
+                hasIntel: true,
+                program: "transition",
+                provider: "Unknown",
+                intelligence: {
+                    status: "Post-acquisition transition",
+                    opportunities: ["$10B Blackstone acquisition 2024", "Vendor review period"],
+                    painPoints: ["Recent restructuring", "Integration challenges"],
+                    details: "Recently acquired by Blackstone, likely reviewing all vendor relationships",
+                    recommendation: "Perfect timing - move now"
+                }
+            },
+            { 
+                name: "Weidner Apartments Homes", 
+                units: 32244, 
+                hasIntel: true,
+                program: "mandatory",
+                provider: "Tenant choice",
+                intelligence: {
+                    status: "Mandatory but no provider",
+                    opportunities: ["No exclusive partnership", "Tenant confusion"],
+                    painPoints: ["Compliance tracking issues"],
+                    details: "Requires insurance but tenants must source independently",
+                    recommendation: "Value-add partnership opportunity"
+                }
+            },
+            { 
+                name: "IRT Living", 
+                units: 31636, 
+                hasIntel: true,
+                program: "mandatory",
+                provider: "Tenant choice",
+                intelligence: {
+                    status: "Mandatory, tenant-sourced",
+                    opportunities: ["$100K liability requirement", "38,000+ units"],
+                    painPoints: ["Manual verification", "No support system"],
+                    details: "Independence Realty Trust - requires proof but manual process",
+                    recommendation: "Automation value prop"
+                }
+            },
+            { 
+                name: "Waterton", 
+                units: 31593, 
+                hasIntel: true,
+                program: "unknown",
+                provider: null,
+                intelligence: {
+                    status: "Program unclear",
+                    opportunities: ["Large portfolio", "Needs assessment"],
+                    painPoints: [],
+                    details: "Unable to confirm requirements",
+                    recommendation: "Research needed"
+                }
+            },
+            { 
+                name: "CWS Capital Partners", 
+                units: 30171, 
+                hasIntel: true,
+                program: "mandatory",
+                provider: "RealPage RenterProtection",
+                intelligence: {
+                    status: "Dual program structure",
+                    opportunities: ["Complex structure creates gaps"],
+                    painPoints: ["Supplemental coverage costs", "Double payment"],
+                    details: "Required insurance PLUS RenterProtection for gaps",
+                    recommendation: "Simplification pitch"
+                }
+            },
+            { 
+                name: "Allied Orion", 
+                units: 30000, 
+                hasIntel: true,
+                program: "limited",
+                provider: "Unknown",
+                intelligence: {
+                    status: "Property-specific only",
+                    opportunities: ["Infrastructure exists", "Needs expansion"],
+                    painPoints: ["Inconsistent coverage"],
+                    details: "Portal mentions insurance but limited implementation",
+                    recommendation: "Expansion opportunity"
+                }
+            },
+            { 
+                name: "American Landmark Apartments", 
+                units: 29144, 
+                hasIntel: true,
+                program: "mandatory",
+                provider: "Multiple providers",
+                intelligence: {
+                    status: "Mandatory with tracking",
+                    opportunities: ["Automated tracking system"],
+                    painPoints: ["Non-compliance fees", "Multiple vendors"],
+                    details: "Mandatory for all tenants with automated tracking",
+                    recommendation: "Consolidation opportunity"
+                }
+            },
+            { 
+                name: "S.L. Nusbaum Realty Co.", 
+                units: 29105, 
+                hasIntel: true,
+                program: "agency",
+                provider: "S.L. Nusbaum Insurance (Travelers)",
+                intelligence: {
+                    status: "Has insurance agency",
+                    opportunities: ["Internal agency partnership"],
+                    painPoints: ["No clear mandatory requirements"],
+                    details: "Own insurance agency with Travelers partnership",
+                    recommendation: "Partner with agency"
+                }
+            },
+            { 
+                name: "Gables Residential", 
+                units: 28025, 
+                hasIntel: true,
+                program: "optional",
+                provider: null,
+                intelligence: {
+                    status: "No clear program",
+                    opportunities: ["28,000+ units", "No corporate program"],
+                    painPoints: [],
+                    details: "No clear corporate-level program",
+                    recommendation: "Corporate standardization"
+                }
+            },
+            { 
+                name: "Fogelman Properties", 
+                units: 28022, 
+                hasIntel: true,
+                program: "none",
+                provider: null,
+                intelligence: {
+                    status: "No program",
+                    opportunities: ["28,000+ units greenfield"],
+                    painPoints: [],
+                    details: "No requirements found",
+                    recommendation: "Greenfield opportunity"
+                }
+            },
+            { 
+                name: "Kairoi Residential", 
+                units: 27777, 
+                hasIntel: true,
+                program: "none",
+                provider: null,
+                intelligence: {
+                    status: "No program",
+                    opportunities: ["27,000+ units available"],
+                    painPoints: [],
+                    details: "No current program identified",
+                    recommendation: "Greenfield target"
+                }
+            },
+            { 
+                name: "Two Coast Living", 
+                units: 27770, 
+                hasIntel: true,
+                program: "none",
+                provider: null,
+                intelligence: {
+                    status: "No program",
+                    opportunities: ["Bi-coastal portfolio"],
+                    painPoints: [],
+                    details: "No requirements found",
+                    recommendation: "Geographic play"
+                }
+            },
+            { 
+                name: "Northland", 
+                units: 27692, 
+                hasIntel: true,
+                program: "mandatory",
+                provider: "Unknown carrier",
+                intelligence: {
+                    status: "Proof required",
+                    opportunities: ["Carrier unknown"],
+                    painPoints: ["Unclear provider relationship"],
+                    details: "Proof of insurance coverage required",
+                    recommendation: "Research current provider"
+                }
+            },
+            { 
+                name: "Mill Creek Residential", 
+                units: 27279, 
+                hasIntel: true,
+                program: "mandatory",
+                provider: "Tenant choice",
+                intelligence: {
+                    status: "No exclusive provider",
+                    opportunities: ["275,000+ units developed", "No partnership"],
+                    painPoints: ["Provider fragmentation"],
+                    details: "Requires insurance with provider of choice",
+                    recommendation: "Exclusive partnership pitch"
+                }
+            },
+            { 
+                name: "Bryten Real Estate Partners", 
+                units: 27017, 
+                hasIntel: true,
+                program: "partial",
+                provider: "LFT/Markel (CA/TX only)",
+                intelligence: {
+                    status: "Limited geographic coverage",
+                    opportunities: ["Coverage gaps outside CA/TX"],
+                    painPoints: ["Incomplete portfolio coverage"],
+                    details: "Partnership evidence in CA/TX only through LFT Insurance",
+                    recommendation: "National expansion"
+                }
+            },
+            { 
+                name: "Arlington Properties", 
+                units: 26800, 
+                hasIntel: true,
+                program: "none",
+                provider: null,
+                intelligence: {
+                    status: "No program",
+                    opportunities: ["26,800 units available"],
+                    painPoints: [],
+                    details: "No requirements found",
+                    recommendation: "Greenfield opportunity"
+                }
+            },
+            { 
+                name: "The Inland Real Estate Group of Cos. Inc.", 
+                units: 26276, 
+                hasIntel: true,
+                program: "mandatory",
+                provider: "Assurant (Cover360)",
+                intelligence: {
+                    status: "Assurant partnership",
+                    opportunities: ["Bundled with rent option"],
+                    painPoints: [],
+                    details: "All leases require insurance, Cover360 program",
+                    recommendation: "Competitive displacement"
+                }
+            },
+            { 
+                name: "Sentinel Real Estate Corporation", 
+                units: 26153, 
+                hasIntel: true,
+                program: "none",
+                provider: null,
+                intelligence: {
+                    status: "No program",
+                    opportunities: ["156,000+ total units", "Massive opportunity"],
+                    painPoints: [],
+                    details: "No current program across large portfolio",
+                    recommendation: "Tier 1 priority"
+                }
+            },
+            { 
+                name: "Landmark Properties Inc.", 
+                units: 25749, 
+                hasIntel: true,
+                program: "optional",
+                provider: "Multiple options",
+                intelligence: {
+                    status: "Optional/Recommended",
+                    opportunities: ["Student housing focus"],
+                    painPoints: ["Location-specific requirements"],
+                    details: "Tenant portals allow proof submission/purchase",
+                    recommendation: "Standardization opportunity"
+                }
+            },
+            { 
+                name: "Brookfield Properties", 
+                units: 25004, 
+                hasIntel: true,
+                program: "mixed",
+                provider: "Lockton Affinity/Liberty Mutual",
+                intelligence: {
+                    status: "Commercial focus",
+                    opportunities: ["80+ communities", "Residential gap"],
+                    painPoints: ["Retail program only", "No residential"],
+                    details: "Strong commercial program but limited residential",
+                    recommendation: "Residential expansion"
+                }
+            },
+            { 
+                name: "Southwood Realty Company", 
+                units: 24800, 
+                hasIntel: true,
+                program: "mandatory",
+                provider: "MRI Multifamily Insurance",
+                intelligence: {
+                    status: "Recently implemented",
+                    opportunities: ["95% compliance rate"],
+                    painPoints: ["Recent implementation"],
+                    details: "Fully managed program with auto-enrollment",
+                    recommendation: "Monitor for issues"
+                }
+            },
+            { 
+                name: "S2 Residential", 
+                units: 24459, 
+                hasIntel: true,
+                program: "none",
+                provider: null,
+                intelligence: {
+                    status: "No program",
+                    opportunities: ["24,000+ units"],
+                    painPoints: [],
+                    details: "No current program",
+                    recommendation: "Greenfield"
+                }
+            },
+            { 
+                name: "Envolve Client Services Group", 
+                units: 24009, 
+                hasIntel: true,
+                program: "none",
+                provider: null,
+                intelligence: {
+                    status: "No program",
+                    opportunities: ["24,000 units available"],
+                    painPoints: [],
+                    details: "No requirements found",
+                    recommendation: "Greenfield opportunity"
+                }
+            },
+            { 
+                name: "Coastal Ridge Real Estate", 
+                units: 23557, 
+                hasIntel: true,
+                program: "none",
+                provider: null,
+                intelligence: {
+                    status: "No program",
+                    opportunities: ["Coastal markets"],
+                    painPoints: [],
+                    details: "No current program",
+                    recommendation: "Regional approach"
+                }
+            },
+            { 
+                name: "General Services Corporation", 
+                units: 22286, 
+                hasIntel: true,
+                program: "none",
+                provider: null,
+                intelligence: {
+                    status: "No program",
+                    opportunities: ["22,000+ units"],
+                    painPoints: [],
+                    details: "No requirements found",
+                    recommendation: "Greenfield"
+                }
+            },
+            { 
+                name: "Continental Properties Company", 
+                units: 21658, 
+                hasIntel: true,
+                program: "varies",
+                provider: "ResidentShield (Pacific only)",
+                intelligence: {
+                    status: "Inconsistent by brand",
+                    opportunities: ["Standardization needed"],
+                    painPoints: ["Brand inconsistency"],
+                    details: "HO4 or master policy varies by brand",
+                    recommendation: "Corporate standardization"
+                }
+            },
+            { 
+                name: "Garden Communities", 
+                units: 21543, 
+                hasIntel: true,
+                program: "variable",
+                provider: "Effective Coverage (CA)",
+                intelligence: {
+                    status: "Market-specific only",
+                    opportunities: ["Gaps outside California"],
+                    painPoints: ["$300K liability in CA only"],
+                    details: "Requirements vary significantly by location",
+                    recommendation: "National program"
+                }
+            },
+            { 
+                name: "Kushner Companies", 
+                units: 20000, 
+                hasIntel: true,
+                program: "none",
+                provider: null,
+                intelligence: {
+                    status: "No program",
+                    opportunities: ["High-profile ownership"],
+                    painPoints: [],
+                    details: "No current program",
+                    recommendation: "Executive approach"
+                }
+            },
+            { 
+                name: "Timberland Partners", 
+                units: 20000, 
+                hasIntel: true,
+                program: "unclear",
+                provider: null,
+                intelligence: {
+                    status: "Requirements unclear",
+                    opportunities: ["Has insurance role posted"],
+                    painPoints: ["Unable to confirm program"],
+                    details: "Insurance infrastructure but unclear requirements",
+                    recommendation: "Needs investigation"
+                }
+            },
+            { 
+                name: "Weinstein Properties", 
+                units: 20000, 
+                hasIntel: true,
+                program: "mandatory",
+                provider: "Assurant",
+                intelligence: {
+                    status: "Existing Assurant partnership",
+                    opportunities: ["Family-owned 70+ years"],
+                    painPoints: ["Service issues potential"],
+                    details: "Confirmed Assurant partnership",
+                    recommendation: "Service differentiation"
+                }
+            },
+            { 
+                name: "TAM Residential", 
+                units: 19609, 
+                hasIntel: true,
+                program: "none",
+                provider: null,
+                intelligence: {
+                    status: "No program",
+                    opportunities: ["19,000+ units"],
+                    painPoints: [],
+                    details: "No current program",
+                    recommendation: "Greenfield"
+                }
+            },
+            { 
+                name: "Case & Associates", 
+                units: 19270, 
+                hasIntel: true,
+                program: "none",
+                provider: null,
+                intelligence: {
+                    status: "No program",
+                    opportunities: ["30,000+ units claimed"],
+                    painPoints: [],
+                    details: "No requirements found",
+                    recommendation: "High-value greenfield"
+                }
+            },
+            { 
+                name: "Birge & Held", 
+                units: 19024, 
+                hasIntel: true,
+                program: "problematic",
+                provider: "Unknown (fee-based)",
+                intelligence: {
+                    status: "Problematic fee structure",
+                    opportunities: ["Poor communication"],
+                    painPoints: ["Building & Facilities fee unclear", "BBB complaints"],
+                    details: "Unclear coverage with poorly communicated fees",
+                    recommendation: "Transparency value prop"
+                }
+            },
+            { 
+                name: "Princeton Management", 
+                units: 18883, 
+                hasIntel: true,
+                program: "unclear",
+                provider: null,
+                intelligence: {
+                    status: "Requirements unknown",
+                    opportunities: ["Needs assessment"],
+                    painPoints: [],
+                    details: "Unable to confirm requirements",
+                    recommendation: "Research needed"
+                }
+            },
+            { 
+                name: "Blanton Turner", 
+                units: 18746, 
+                hasIntel: false 
+            },
+            { 
+                name: "Steadfast Companies", 
+                units: 18589, 
+                hasIntel: false 
+            },
+            { 
+                name: "First Communities", 
+                units: 18508, 
+                hasIntel: false 
+            },
+            { 
+                name: "Roberts Companies", 
+                units: 18382, 
+                hasIntel: false 
+            },
+            { 
+                name: "Laramar Group", 
+                units: 18334, 
+                hasIntel: false 
+            },
+            { 
+                name: "CA Student Living", 
+                units: 18290, 
+                hasIntel: false 
+            },
+            { 
+                name: "AION Partners LLC", 
+                units: 18109, 
+                hasIntel: false 
+            },
+            { 
+                name: "Corvias", 
+                units: 18023, 
+                hasIntel: false 
+            },
+            { 
+                name: "Peak Campus", 
+                units: 17935, 
+                hasIntel: false 
+            },
+            { 
+                name: "EdR", 
+                units: 17787, 
+                hasIntel: false 
+            },
+            { 
+                name: "Campus Crest Communities", 
+                units: 17531, 
+                hasIntel: false 
+            },
+            { 
+                name: "Pierce Education Properties", 
+                units: 17482, 
+                hasIntel: false 
+            },
+            { 
+                name: "The Scion Group", 
+                units: 17309, 
+                hasIntel: false 
+            },
+            { 
+                name: "Preiss Company", 
+                units: 17259, 
+                hasIntel: false 
+            },
+            { 
+                name: "Cardinal Group", 
+                units: 17162, 
+                hasIntel: false 
+            },
+            { 
+                name: "Capstone Real Estate Investments", 
+                units: 17113, 
+                hasIntel: false 
+            },
+            { 
+                name: "CA Ventures", 
+                units: 17032, 
+                hasIntel: false 
+            },
+            { 
+                name: "University Partners", 
+                units: 16960, 
+                hasIntel: false 
+            },
+            { 
+                name: "Core Spaces", 
+                units: 16942, 
+                hasIntel: false 
+            },
+            { 
+                name: "American Campus Communities", 
+                units: 16752, 
+                hasIntel: false 
+            },
+            { 
+                name: "The Dinerstein Companies", 
+                units: 16712, 
+                hasIntel: false 
+            },
+            { 
+                name: "CHNM", 
+                units: 16468, 
+                hasIntel: false 
+            },
+            { 
+                name: "Brookside Properties", 
+                units: 15000, 
+                hasIntel: true,
+                program: "unknown",
+                provider: null,
+                intelligence: {
+                    status: "Inconsistent/Unknown",
+                    opportunities: ["Needs assessment"],
+                    painPoints: [],
+                    details: "No specific requirements found",
+                    recommendation: "Research needed"
+                }
+            },
+            { 
+                name: "AMC Management", 
+                units: 15000, 
+                hasIntel: false 
+            },
+            { 
+                name: "Towne Properties", 
+                units: 15000, 
+                hasIntel: false 
+            },
+            { 
+                name: "Grand Peaks Properties", 
+                units: 15000, 
+                hasIntel: false 
+            },
+            { 
+                name: "Monument Real Estate Services", 
+                units: 15000, 
+                hasIntel: false 
+            },
+            { 
+                name: "Tower 16 Capital Partners", 
+                units: 15000, 
+                hasIntel: false 
+            },
+            { 
+                name: "St. John Properties", 
+                units: 15000, 
+                hasIntel: false 
+            },
+            { 
+                name: "Redwood Living", 
+                units: 15000, 
+                hasIntel: false 
+            },
+            { 
+                name: "Hayman Company", 
+                units: 15000, 
+                hasIntel: false 
+            },
+            { 
+                name: "National Property Management Associates", 
+                units: 15000, 
+                hasIntel: false 
+            }
         ];
         
-        // Scoring functions
+        // Calculate scores
         function calculateScore(company) {
             let score = 0;
-            let breakdown = {};
             
             if (company.hasIntel) {
-                // Enhanced scoring with intelligence data
+                // Enhanced scoring with intelligence
                 
-                // Current Program Status (20 points)
+                // Program Status (20 points)
                 if (company.program === "none") {
                     score += 20;
-                    breakdown.programStatus = 20;
-                } else if (company.program === "weak" || company.program === "manual" || company.program === "problematic") {
+                } else if (company.program === "developing" || company.program === "transition") {
+                    score += 18;
+                } else if (company.program === "weak" || company.program === "problematic" || company.program === "unclear") {
                     score += 15;
-                    breakdown.programStatus = 15;
-                } else if (company.program === "optional" || company.program === "unclear" || company.program === "limited") {
+                } else if (company.program === "optional" || company.program === "partial" || company.program === "limited") {
+                    score += 12;
+                } else if (company.program === "varies" || company.program === "variable" || company.program === "mixed") {
                     score += 10;
-                    breakdown.programStatus = 10;
-                } else if (company.program === "transition" || company.program === "mixed" || company.program === "varies" || company.program === "variable") {
+                } else if (company.program === "mandatory" && !company.provider) {
                     score += 8;
-                    breakdown.programStatus = 8;
                 } else if (company.program === "mandatory" && company.provider && company.provider.includes("Assurant")) {
                     score += 3;
-                    breakdown.programStatus = 3;
                 } else if (company.program === "mandatory") {
                     score += 5;
-                    breakdown.programStatus = 5;
                 } else {
-                    score += 5;
-                    breakdown.programStatus = 5;
+                    score += 7;
                 }
                 
                 // Portfolio Size (15 points)
                 if (company.units >= 25000 && company.units <= 35000) {
                     score += 15;
-                    breakdown.portfolioSize = 15;
                 } else if (company.units >= 20000 && company.units < 25000) {
                     score += 12;
-                    breakdown.portfolioSize = 12;
                 } else if (company.units >= 35000 && company.units < 40000) {
                     score += 8;
-                    breakdown.portfolioSize = 8;
                 } else if (company.units >= 15000 && company.units < 20000) {
-                    score += 8;
-                    breakdown.portfolioSize = 8;
+                    score += 10;
                 } else if (company.units >= 40000) {
                     score += 0;
-                    breakdown.portfolioSize = 0;
-                }
-                
-                // Tech Readiness (15 points) - estimated based on program type
-                if (company.program === "none" || company.program === "manual") {
-                    score += 15; // High opportunity for tech improvement
-                    breakdown.techReadiness = 15;
-                } else if (company.program === "weak" || company.program === "problematic") {
-                    score += 12;
-                    breakdown.techReadiness = 12;
-                } else if (company.program === "optional" || company.program === "unclear" || company.program === "limited") {
-                    score += 8;
-                    breakdown.techReadiness = 8;
-                } else {
-                    score += 5;
-                    breakdown.techReadiness = 5;
                 }
                 
                 // Opportunity Signals (15 points)
-                let opportunityScore = 10; // Base score
-                if (company.program === "transition") opportunityScore += 5;
-                if (company.provider && company.provider.includes("Unknown")) opportunityScore += 3;
-                if (company.program === "none") opportunityScore += 5;
-                if (company.name === "AIR Communities") opportunityScore = 15; // Blackstone acquisition
-                score += Math.min(15, opportunityScore);
-                breakdown.opportunitySignals = Math.min(15, opportunityScore);
+                let oppScore = 8;
+                if (company.intelligence) {
+                    if (company.intelligence.opportunities) {
+                        if (company.intelligence.opportunities.some(o => o.includes("acquisition") || o.includes("RFP") || o.includes("shopping"))) {
+                            oppScore += 7;
+                        } else if (company.intelligence.opportunities.some(o => o.includes("greenfield") || o.includes("no program"))) {
+                            oppScore += 5;
+                        }
+                    }
+                    if (company.intelligence.painPoints && company.intelligence.painPoints.length > 0) {
+                        oppScore += 3;
+                    }
+                }
+                score += Math.min(15, oppScore);
                 
-                // Class A Focus (15 points) - estimated
-                score += 10; // Default medium score without specific data
-                breakdown.classAFocus = 10;
-                
-                // Growth Focus (10 points) - estimated
-                score += 7; // Default medium score
-                breakdown.growthFocus = 7;
-                
-                // Decision Speed (10 points) - estimated
-                score += 8; // Assume mostly private companies
-                breakdown.decisionSpeed = 8;
-                
-            } else {
-                // Basic scoring for companies without intelligence
-                
-                // Class A Focus (25 points) - estimated
-                score += 15;
-                breakdown.classAFocus = 15;
-                
-                // Portfolio Size (20 points)
-                if (company.units >= 25000 && company.units <= 35000) {
-                    score += 20;
-                    breakdown.portfolioSize = 20;
-                } else if (company.units >= 20000 && company.units < 25000) {
+                // Tech/Infrastructure (15 points)
+                if (company.program === "none" || company.program === "problematic") {
                     score += 15;
-                    breakdown.portfolioSize = 15;
-                } else if (company.units >= 35000 && company.units < 40000) {
+                } else if (company.provider === "Tenant choice" || company.provider === "Unknown") {
+                    score += 12;
+                } else if (company.program === "manual" || (company.intelligence && company.intelligence.details && company.intelligence.details.includes("manual"))) {
                     score += 10;
-                    breakdown.portfolioSize = 10;
-                } else if (company.units >= 15000 && company.units < 20000) {
-                    score += 10;
-                    breakdown.portfolioSize = 10;
-                } else if (company.units >= 40000) {
-                    score += 0;
-                    breakdown.portfolioSize = 0;
+                } else {
+                    score += 5;
                 }
                 
-                // Tech Leadership (20 points) - estimated
+                // Market Position (15 points) - estimated
                 score += 10;
-                breakdown.techLeadership = 10;
                 
-                // Growth Focus (15 points) - estimated
-                score += 10;
-                breakdown.growthFocus = 10;
-                
-                // Partnership Readiness (10 points) - estimated
+                // Growth (10 points) - estimated
                 score += 7;
-                breakdown.partnershipReadiness = 7;
                 
                 // Decision Speed (10 points) - estimated
                 score += 8;
-                breakdown.decisionSpeed = 8;
+                
+            } else {
+                // Basic scoring
+                score += 15; // Class A estimate
+                
+                // Portfolio size
+                if (company.units >= 25000 && company.units <= 35000) {
+                    score += 20;
+                } else if (company.units >= 20000 && company.units < 25000) {
+                    score += 15;
+                } else if (company.units >= 35000 && company.units < 40000) {
+                    score += 10;
+                } else if (company.units >= 15000 && company.units < 20000) {
+                    score += 10;
+                } else if (company.units >= 40000) {
+                    score += 0;
+                }
+                
+                score += 10; // Tech estimate
+                score += 10; // Growth estimate
+                score += 7;  // Partnership readiness
+                score += 8;  // Decision speed
             }
             
             company.score = score;
-            company.breakdown = breakdown;
             
-            // Determine tier
+            // Assign tier
             if (score >= 75) {
                 company.tier = 1;
             } else if (score >= 60) {
@@ -742,7 +1456,7 @@
             return score;
         }
         
-        // Calculate initial scores
+        // Calculate all scores
         companies.forEach(company => {
             calculateScore(company);
         });
@@ -750,11 +1464,25 @@
         // Sort by score
         companies.sort((a, b) => b.score - a.score);
         
+        // Toggle details row
+        function toggleDetails(index) {
+            const detailsRow = document.getElementById(`details-${index}`);
+            const expandIcon = document.getElementById(`expand-${index}`);
+            
+            if (detailsRow.classList.contains('show')) {
+                detailsRow.classList.remove('show');
+                expandIcon.classList.remove('expanded');
+            } else {
+                detailsRow.classList.add('show');
+                expandIcon.classList.add('expanded');
+            }
+        }
+        
         // Render table
         function renderTable() {
             const tbody = document.getElementById('tableBody');
             const filterTier = document.getElementById('filterTier').value;
-            const filterIntel = document.getElementById('filterIntel').value;
+            const filterProgram = document.getElementById('filterProgram').value;
             const searchTerm = document.getElementById('searchCompany').value.toLowerCase();
             
             tbody.innerHTML = '';
@@ -762,6 +1490,8 @@
             let tier1Count = 0;
             let tier2Count = 0;
             let withIntelCount = 0;
+            let noProgramCount = 0;
+            let totalUnits = 0;
             let rank = 1;
             
             companies.forEach((company, index) => {
@@ -769,90 +1499,179 @@
                 if (company.tier === 1) tier1Count++;
                 if (company.tier === 2) tier2Count++;
                 if (company.hasIntel) withIntelCount++;
+                if (company.program === "none") noProgramCount++;
+                totalUnits += company.units;
                 
                 // Apply filters
                 if (filterTier !== 'all' && company.tier !== parseInt(filterTier)) return;
-                if (filterIntel === 'full' && !company.hasIntel) return;
-                if (filterIntel === 'basic' && company.hasIntel) return;
-                if (searchTerm && !company.name.toLowerCase().includes(searchTerm)) return;
                 
+                if (filterProgram !== 'all') {
+                    if (filterProgram === 'none' && company.program !== 'none') return;
+                    if (filterProgram === 'weak' && !['weak', 'manual', 'problematic', 'unclear'].includes(company.program)) return;
+                    if (filterProgram === 'transition' && !['transition', 'developing', 'mixed'].includes(company.program)) return;
+                    if (filterProgram === 'competitor' && (!company.provider || company.provider === 'Tenant choice')) return;
+                }
+                
+                if (searchTerm) {
+                    const searchIn = (company.name + ' ' + (company.provider || '') + ' ' + (company.intelligence?.details || '')).toLowerCase();
+                    if (!searchIn.includes(searchTerm)) return;
+                }
+                
+                // Main row
                 const row = document.createElement('tr');
-                row.className = `tier-${company.tier}`;
+                row.className = `expandable-row tier-${company.tier}`;
                 
-                // Determine action based on intelligence
-                let action = '';
-                let opportunity = '';
-                let currentProgram = '';
+                // Determine status badge
+                let statusBadge = '';
+                if (company.program === 'none') {
+                    statusBadge = '<span class="program-badge program-none">No Program</span>';
+                } else if (['weak', 'manual', 'problematic', 'unclear'].includes(company.program)) {
+                    statusBadge = '<span class="program-badge program-weak">Weak/Manual</span>';
+                } else if (['transition', 'developing', 'mixed'].includes(company.program)) {
+                    statusBadge = '<span class="program-badge program-transition">Transition</span>';
+                } else if (company.program === 'mandatory' && company.provider) {
+                    statusBadge = '<span class="program-badge program-strong">Has Program</span>';
+                } else if (company.hasIntel) {
+                    statusBadge = `<span class="program-badge">${company.program || 'Unknown'}</span>`;
+                } else {
+                    statusBadge = '—';
+                }
                 
-                if (company.hasIntel) {
-                    if (company.program === 'none') {
-                        currentProgram = '<span class="program-status status-none">No Program</span>';
-                        opportunity = 'Greenfield - High Priority';
-                        action = 'Call immediately';
-                    } else if (company.program === 'weak' || company.program === 'manual' || company.program === 'problematic') {
-                        currentProgram = '<span class="program-status status-weak">Weak Program</span>';
-                        opportunity = 'Clear value-add';
-                        action = 'Prepare enhancement pitch';
-                    } else if (company.program === 'mandatory' && company.provider) {
-                        currentProgram = `<span class="program-status status-competitor">${company.provider}</span>`;
-                        opportunity = 'Displacement';
-                        action = 'Research pain points';
-                    } else if (company.program === 'transition' || company.program === 'mixed') {
-                        currentProgram = '<span class="program-status status-weak">In Transition</span>';
-                        opportunity = 'Timing opportunity';
-                        action = 'Move fast';
-                    } else if (company.program === 'optional' || company.program === 'limited') {
-                        currentProgram = '<span class="program-status status-weak">Optional/Limited</span>';
-                        opportunity = 'Standardization opp';
-                        action = 'Propose corporate program';
-                    } else if (company.program === 'unclear' || company.program === 'unknown') {
-                        currentProgram = '<span class="program-status status-weak">Unclear</span>';
-                        opportunity = 'Needs assessment';
-                        action = 'Discovery call';
-                    } else if (company.program === 'varies' || company.program === 'variable') {
-                        currentProgram = '<span class="program-status status-weak">Inconsistent</span>';
-                        opportunity = 'Standardization needed';
-                        action = 'Propose unified solution';
-                    } else {
-                        currentProgram = company.program || 'Unknown';
-                        opportunity = 'Assess further';
-                        action = 'Research needed';
+                // Provider/Issues column
+                let providerInfo = '';
+                if (company.hasIntel && company.intelligence) {
+                    if (company.provider) {
+                        providerInfo = `<span class="provider-tag">${company.provider}</span>`;
+                    }
+                    if (company.intelligence.painPoints && company.intelligence.painPoints.length > 0) {
+                        company.intelligence.painPoints.forEach(point => {
+                            if (point.length < 30) {
+                                providerInfo += ` <span class="pain-point">${point}</span>`;
+                            }
+                        });
                     }
                 } else {
-                    currentProgram = '—';
-                    opportunity = 'Unknown';
+                    providerInfo = '—';
+                }
+                
+                // Key Intel column
+                let keyIntel = '';
+                if (company.hasIntel && company.intelligence) {
+                    if (company.intelligence.opportunities) {
+                        const topOpp = company.intelligence.opportunities[0];
+                        if (topOpp && topOpp.length < 40) {
+                            keyIntel = `<span class="opportunity-tag">${topOpp}</span>`;
+                        }
+                    }
+                } else {
+                    keyIntel = 'Research needed';
+                }
+                
+                // Action column
+                let action = '';
+                if (company.hasIntel && company.intelligence) {
+                    const rec = company.intelligence.recommendation;
+                    if (rec.includes('immediate') || rec.includes('fast') || rec.includes('now')) {
+                        action = `<span class="action-urgent">${rec}</span>`;
+                    } else if (rec.includes('priority') || rec.includes('opportunity')) {
+                        action = `<span class="action-priority">${rec}</span>`;
+                    } else {
+                        action = `<span class="action-standard">${rec}</span>`;
+                    }
+                } else {
                     action = 'Research first';
                 }
                 
                 row.innerHTML = `
+                    <td onclick="toggleDetails(${index})">
+                        <span id="expand-${index}" class="expand-icon">›</span>
+                    </td>
                     <td>${rank++}</td>
                     <td>
-                        ${company.hasIntel ? '<span class="intel-icon intel-full">✓</span>' : '<span class="intel-icon intel-basic">?</span>'}
+                        <span class="intel-indicator ${company.hasIntel ? 'intel-full' : 'intel-basic'}"></span>
                         <strong>${company.name}</strong>
                     </td>
                     <td>${company.units.toLocaleString()}</td>
-                    <td>
-                        <strong>${company.score}</strong>/100
-                        <div class="score-bar">
-                            <div class="score-fill" style="width: ${company.score}%"></div>
-                        </div>
-                    </td>
+                    <td><strong>${company.score}</strong></td>
                     <td><span class="tier-badge">Tier ${company.tier}</span></td>
-                    <td>
-                        ${company.hasIntel ? '<span class="data-badge data-full">Full Intel</span>' : '<span class="data-badge data-basic">Basic Only</span>'}
-                    </td>
-                    <td>${currentProgram}</td>
-                    <td>${opportunity}</td>
-                    <td><strong>${action}</strong></td>
+                    <td>${statusBadge}</td>
+                    <td>${providerInfo}</td>
+                    <td>${keyIntel}</td>
+                    <td>${action}</td>
                 `;
                 
                 tbody.appendChild(row);
+                
+                // Details row
+                if (company.hasIntel && company.intelligence) {
+                    const detailsRow = document.createElement('tr');
+                    detailsRow.id = `details-${index}`;
+                    detailsRow.className = 'details-row';
+                    
+                    detailsRow.innerHTML = `
+                        <td colspan="10">
+                            <div class="details-content">
+                                <div class="details-grid">
+                                    <div class="detail-section">
+                                        <h4>Company Overview</h4>
+                                        <div class="detail-item">
+                                            <span class="detail-label">Portfolio:</span>
+                                            <span class="detail-value">${company.units.toLocaleString()} units</span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <span class="detail-label">Current Status:</span>
+                                            <span class="detail-value">${company.intelligence.status}</span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <span class="detail-label">Provider:</span>
+                                            <span class="detail-value">${company.provider || 'None'}</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="detail-section">
+                                        <h4>Opportunities</h4>
+                                        ${company.intelligence.opportunities ? company.intelligence.opportunities.map(opp => 
+                                            `<div class="detail-item">• ${opp}</div>`
+                                        ).join('') : '<div class="detail-item">No specific opportunities identified</div>'}
+                                    </div>
+                                    
+                                    <div class="detail-section">
+                                        <h4>Intelligence Details</h4>
+                                        <div class="detail-item">
+                                            <span class="detail-value">${company.intelligence.details}</span>
+                                        </div>
+                                        ${company.intelligence.painPoints && company.intelligence.painPoints.length > 0 ? 
+                                            `<div class="detail-item" style="margin-top: 10px;">
+                                                <span class="detail-label">Pain Points:</span>
+                                                <span class="detail-value">${company.intelligence.painPoints.join(', ')}</span>
+                                            </div>` : ''
+                                        }
+                                    </div>
+                                    
+                                    <div class="detail-section">
+                                        <h4>Recommended Approach</h4>
+                                        <div class="detail-item">
+                                            <strong>${company.intelligence.recommendation}</strong>
+                                        </div>
+                                        <div class="detail-item" style="margin-top: 10px;">
+                                            <span class="detail-label">Priority Score:</span>
+                                            <span class="detail-value">${company.score}/100</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    `;
+                    
+                    tbody.appendChild(detailsRow);
+                }
             });
             
             // Update stats
             document.getElementById('tier1Count').textContent = tier1Count;
-            document.getElementById('tier2Count').textContent = tier2Count;
             document.getElementById('withIntel').textContent = withIntelCount;
+            document.getElementById('noProgram').textContent = noProgramCount;
+            document.getElementById('totalUnits').textContent = (totalUnits / 1000).toFixed(0) + 'K';
         }
         
         // Initial render
@@ -860,105 +1679,39 @@
         
         // Event listeners
         document.getElementById('filterTier').addEventListener('change', renderTable);
-        document.getElementById('filterIntel').addEventListener('change', renderTable);
+        document.getElementById('filterProgram').addEventListener('change', renderTable);
         document.getElementById('searchCompany').addEventListener('input', renderTable);
-        
-        // Recalculate scores
-        function recalculateScores() {
-            companies.forEach(company => {
-                calculateScore(company);
-            });
-            companies.sort((a, b) => b.score - a.score);
-            renderTable();
-            
-            // Show notification
-            const notification = document.createElement('div');
-            notification.style.cssText = 'position: fixed; top: 20px; right: 20px; background: #28a745; color: white; padding: 15px 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); z-index: 1000;';
-            notification.textContent = 'Scores recalculated successfully!';
-            document.body.appendChild(notification);
-            setTimeout(() => notification.remove(), 3000);
-        }
         
         // Export to Excel
         function exportToExcel() {
-            const exportData = companies.map((company, index) => ({
-                'Rank': index + 1,
-                'Company': company.name,
-                'Units': company.units,
-                'Score': company.score,
-                'Tier': company.tier,
-                'Intelligence Status': company.hasIntel ? 'Full Intelligence' : 'Basic Data',
-                'Current Program': company.program || 'Unknown',
-                'Current Provider': company.provider || 'None',
-                'Class A Focus': company.breakdown.classAFocus || 0,
-                'Portfolio Size Score': company.breakdown.portfolioSize || 0,
-                'Tech Readiness Score': company.breakdown.techReadiness || company.breakdown.techLeadership || 0,
-                'Growth Focus Score': company.breakdown.growthFocus || 0,
-                'Partnership/Decision Score': company.breakdown.partnershipReadiness || company.breakdown.decisionSpeed || 0,
-                'Program Status Score': company.breakdown.programStatus || 0,
-                'Opportunity Signals': company.breakdown.opportunitySignals || 0
-            }));
+            const exportData = companies.map((company, index) => {
+                const row = {
+                    'Rank': index + 1,
+                    'Company': company.name,
+                    'Units': company.units,
+                    'Score': company.score,
+                    'Tier': company.tier,
+                    'Intelligence Level': company.hasIntel ? 'Full Intelligence' : 'Basic Data',
+                    'Current Program': company.program || 'Unknown',
+                    'Current Provider': company.provider || 'None'
+                };
+                
+                if (company.hasIntel && company.intelligence) {
+                    row['Status'] = company.intelligence.status;
+                    row['Opportunities'] = company.intelligence.opportunities ? company.intelligence.opportunities.join('; ') : '';
+                    row['Pain Points'] = company.intelligence.painPoints ? company.intelligence.painPoints.join('; ') : '';
+                    row['Details'] = company.intelligence.details;
+                    row['Recommendation'] = company.intelligence.recommendation;
+                }
+                
+                return row;
+            });
             
             const ws = XLSX.utils.json_to_sheet(exportData);
             const wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, "PMC Prioritization");
-            
-            // Add column widths
-            const wscols = [
-                {wch: 6},  // Rank
-                {wch: 40}, // Company
-                {wch: 10}, // Units
-                {wch: 8},  // Score
-                {wch: 6},  // Tier
-                {wch: 20}, // Intelligence Status
-                {wch: 15}, // Current Program
-                {wch: 20}, // Current Provider
-                {wch: 12}, // Class A Focus
-                {wch: 15}, // Portfolio Size Score
-                {wch: 15}, // Tech Readiness Score
-                {wch: 15}, // Growth Focus Score
-                {wch: 20}, // Partnership/Decision Score
-                {wch: 15}, // Program Status Score
-                {wch: 15}  // Opportunity Signals
-            ];
-            ws['!cols'] = wscols;
-            
-            XLSX.writeFile(wb, "PMC_Prioritization_Enhanced.xlsx");
-            
-            // Show notification
-            const notification = document.createElement('div');
-            notification.style.cssText = 'position: fixed; top: 20px; right: 20px; background: #007bff; color: white; padding: 15px 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); z-index: 1000;';
-            notification.textContent = 'Excel file downloaded successfully!';
-            document.body.appendChild(notification);
-            setTimeout(() => notification.remove(), 3000);
+            XLSX.utils.book_append_sheet(wb, ws, "PMC Intelligence Report");
+            XLSX.writeFile(wb, "PMC_Intelligence_Report.xlsx");
         }
-        
-        // Add keyboard shortcuts
-        document.addEventListener('keydown', function(e) {
-            // Ctrl/Cmd + E for export
-            if ((e.ctrlKey || e.metaKey) && e.key === 'e') {
-                e.preventDefault();
-                exportToExcel();
-            }
-            // Ctrl/Cmd + R for recalculate
-            if ((e.ctrlKey || e.metaKey) && e.key === 'r') {
-                e.preventDefault();
-                recalculateScores();
-            }
-            // Ctrl/Cmd + F for focus search
-            if ((e.ctrlKey || e.metaKey) && e.key === 'f') {
-                e.preventDefault();
-                document.getElementById('searchCompany').focus();
-            }
-        });
-        
-        // Print styling
-        window.addEventListener('beforeprint', function() {
-            // Expand all rows for printing
-            document.getElementById('filterTier').value = 'all';
-            document.getElementById('filterIntel').value = 'all';
-            renderTable();
-        });
     </script>
 </body>
 </html>
